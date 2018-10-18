@@ -1,0 +1,108 @@
+body {
+  font-family: sans-serif !important;
+  width: 800px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+*[contenteditable="true"] {
+  display: inline-block;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.vspace {
+  margin-bottom: 5px;
+}
+
+[class*="col-"] {
+    float: left;
+    padding: 2px;
+}
+
+.col-1 { width: 8.33%; }
+.col-2 { width: 16.66%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.33%; }
+.col-5 { width: 41.66%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.33%; }
+.col-8 { width: 66.66%; }
+.col-9 { width: 75%; }
+.col-10 { width: 83.33%; }
+.col-11 { width: 91.66%; }
+.col-12 { width: 100%; }
+
+h1 {
+  font-size: 3em;
+  font-variant: small-caps;
+  letter-spacing: 5px;
+  margin: 0 auto 0 auto;
+  text-align: center;
+}
+
+h1 span {
+  position: relative;
+  top: -6px;
+}
+
+h2 {
+  font-size: larger;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+i {
+  font-size: smaller;
+}
+
+div.alignCenter {
+  text-align: center;
+}
+
+div.alignLeft {
+  text-align: left;
+}
+
+div.alignRight {
+  text-align: right;
+}
+
+div.border {
+  border: 2px solid black;
+  border-radius: 20px;
+  padding: 5px 10px 5px 10px;
+}
+
+span.input, span.inputSmall, span.inputSmaller {
+  border-bottom: 1px solid black;
+  display: inline-block;
+  margin: 5px 0 -5px 0;
+  min-height: 20px;
+  text-align: center;
+}
+
+span.input {
+  width: 100%;
+}
+
+span.inputSmall {
+  width: 70px;
+}
+
+span.inputSmaller {
+  width: 50px;
+}
+
+div.titleSubtext {
+  font-size: x-small;
+  margin: -15px auto 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+}
