@@ -1,7 +1,6 @@
 /* TODO
  * add check for min/max values
  * prevent input of invalid characters
- * prevent literal "NaN" in output
  * prevent recalculation of everything for non-alphanumeric keys (like TAB)
  *
  *
@@ -150,13 +149,16 @@ function refreshCharacterSheet(e) {
 				relevantStatValue = characterStats[characterSkills[characterSkill][characterStat]];
 			}
 		}
-		try {
-			baseSkill = 20 - (relevantStatValue + parseInt(document.getElementById(characterSkill + "Level").innerHTML));
+		baseSkill = 20 - (relevantStatValue + parseInt(document.getElementById(characterSkill + "Level").innerHTML));
+		if ( isNaN(baseSkill) || relevantStatValue == 0 ) {
+			document.getElementById(characterSkill + "Low").innerHTML = "";
+			document.getElementById(characterSkill + "Mid").innerHTML = "";
+			document.getElementById(characterSkill + "High").innerHTML = "";
+		} else {
 			document.getElementById(characterSkill + "Low").innerHTML = baseSkill;
 			document.getElementById(characterSkill + "Mid").innerHTML = baseSkill + 5;
 			document.getElementById(characterSkill + "High").innerHTML = baseSkill + 10;
-		} catch {
-
 		}
+
 	}
 };
