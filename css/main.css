@@ -90,6 +90,7 @@ span.input, span.inputSmall, span.inputSmaller {
   margin: 5px 0 -5px 0;
   min-height: 20px;
   text-align: center;
+  white-space: nowrap;
 }
 
 span.input {
@@ -101,7 +102,7 @@ span.inputSmall {
 }
 
 span.inputSmaller {
-  width: 50px;
+  width: 30px;
 }
 
 div.titleSubtext {
