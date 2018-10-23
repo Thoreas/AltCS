@@ -11,6 +11,10 @@ body {
   display: inline-block;
 }
 
+.alternate-background {
+  background: #D0D0D0;
+}
+
 .row::after {
     content: "";
     clear: both;
