@@ -57,6 +57,10 @@ for ( id in idsRelevantForCalculatingCharacterSkills ) {
 // Bind function which adjust available wound points to character's VIT
 document.getElementById("characterVit").addEventListener("focusout", adjustWounds);
 
+// Bind function which calculates character's encumbrance
+document.getElementById("characterStr").addEventListener("focusout", calculateEncumbrance);
+document.getElementById("characterVit").addEventListener("focusout", calculateEncumbrance);
+
 // Bind function which calculates character's initiative
 document.getElementById("characterAgi").addEventListener("focusout", calculateInitiative);
 document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
@@ -73,7 +77,18 @@ function adjustWounds(e) {
 	}
 }
 
-// Calculate character"s initiative
+// Calculate character's encumbrance value
+function calculateEncumbrance(e) {
+	var characterStr = parseInt(document.getElementById("characterStr").innerHTML);
+	var characterVit = parseInt(document.getElementById("characterVit").innerHTML);
+	if ( isNaN(characterStr) || isNaN(characterVit) ) {
+		document.getElementById("characterEncumbrance").innerHTML = "";
+	} else {
+		document.getElementById("characterEncumbrance").innerHTML = 10 + 2 * ( characterStr - 3 > 0 ? characterStr - 3 : 0 ) + 2 * ( characterVit - 3 > 0 ? characterVit - 3 : 0 );
+	}
+}
+
+// Calculate character's initiative
 function calculateInitiative(e) {
 	var characterAgi = parseInt(document.getElementById("characterAgi").innerHTML);
 	var characterFoc = parseInt(document.getElementById("characterFoc").innerHTML);
