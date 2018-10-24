@@ -48,18 +48,25 @@ var idsRelevantForCalculatingCharacterSkills = [    "characterLevel",
                                                     "stealthLevel",
                                                     "survivalLevel",
                                                     "willpowerLevel"];
-// Bind recalculate character skills function to every ID in previous list
+// Bind all relevant functions to every ID in previous list
 for ( id in idsRelevantForCalculatingCharacterSkills ) {
+	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("keypress", discardInvalidKeysForSkills);
 	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("focusout", recalculateCharacterSkills);
+}
+
+// Discard invalid keys for skills
+function discardInvalidKeysForSkills(e) {
+	console.log("tu sam");
+	// Allow only numbers, backspace, delete, tab, left arrow and right arrow keys; discard everything else
+	if ( e.which != 0 && e.which != 8 && e.which != 9 && e.which != 37 && e.which != 39 && e.which != 46 && !(e.which >= 48 && e.which <= 57) ) {
+		console.log(e.which + " odbacio");
+		e.preventDefault();
+		return;
+	}
 }
 
 // Recalculate character skills
 function recalculateCharacterSkills(e) {
-	// Allow only numbers, backspace, delete, tab, left arrow and right arrow keys; discard everything else
-	if ( e.which != 0 && e.which != 8 && e.which != 9 && e.which != 37 && e.which != 39 && e.which != 46 && !(e.which >= 48 && e.which <= 57) ) {
-		e.preventDefault();
-		return;
-	}
 
 	// Get value of stats input fields
 	var characterStats = {
