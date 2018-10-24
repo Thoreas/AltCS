@@ -1,12 +1,3 @@
-/* TODO
- * prevent input of invalid characters
- * prevent recalculation of everything for non-alphanumeric keys (like TAB)
- *
- *
- *
- */
-
-
 // Discard any "Enter" or "Return" key pressed anywhere on the page/app
 document.addEventListener("keypress", (function(e) {
 	if ( e.which == 13 ) {
@@ -15,55 +6,55 @@ document.addEventListener("keypress", (function(e) {
 	return true;
 }));
 
-// Add listener event for changing character level
-document.getElementById('characterLevel').addEventListener("focusout", recalculateCharacterSkills);
+// List of ID's relevant to calculating character skills
+var idsRelevantForCalculatingCharacterSkills = [	"characterLevel",
+													"characterStr",
+													"characterInt",
+													"characterAgi",
+													"characterFoc",
+													"characterVit",
+													"characterPer",
+													"academicsLevel",
+													"acrobaticsLevel",
+													"armortrainingLevel",
+													"athleticsLevel",
+													"awarenessLevel",
+													"coercionLevel",
+													"computerLevel",
+													"cultureLevel",
+													"deceptionLevel",
+													"drivingLevel",
+													"dodgeLevel",
+													"empathyLevel",
+													"enduranceLevel",
+													"energyweaponLevel",
+													"engineeringLevel",
+													"extremesportsLevel",
+													"firearmLevel",
+													"handtohandLevel",
+													"heavyweaponLevel",
+													"influenceLevel",
+													"mechanicsLevel",
+													"medicineLevel",
+													"meleeLevel",
+													"misdirectionLevel",
+													"performanceLevel",
+													"pilotingLevel",
+													"primitivewpnLevel",
+													"professionLevel",
+													"resilienceLevel",
+													"scienceLevel",
+													"securityLevel",
+													"stealthLevel",
+													"survivalLevel",
+													"willpowerLevel"];
+// Bind recalculate character skills function to every ID in previous list
+for ( id in idsRelevantForCalculatingCharacterSkills ) {
+	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("focusout", recalculateCharacterSkills);
+}
 
-// Add listener event for changing character stats
-document.getElementById('characterStr').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('characterInt').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('characterAgi').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('characterFoc').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('characterVit').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('characterPer').addEventListener("focusout", recalculateCharacterSkills);
-
-// Add listener event for changing skill levels
-document.getElementById('academicsLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('acrobaticsLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('armortrainingLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('athleticsLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('awarenessLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('coercionLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('computerLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('cultureLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('deceptionLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('drivingLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('dodgeLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('empathyLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('enduranceLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('energyweaponLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('engineeringLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('extremesportsLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('firearmLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('handtohandLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('heavyweaponLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('influenceLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('mechanicsLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('medicineLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('meleeLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('misdirectionLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('performanceLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('pilotingLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('primitivewpnLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('professionLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('resilienceLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('scienceLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('securityLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('stealthLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('survivalLevel').addEventListener("focusout", recalculateCharacterSkills);
-document.getElementById('willpowerLevel').addEventListener("focusout", recalculateCharacterSkills);
-
+// Recalculate character skills
 function recalculateCharacterSkills(e) {
-	console.log(e.cancelable);
 	// Allow only numbers, backspace, delete, tab, left arrow and right arrow keys; discard everything else
 	if ( e.which != 0 && e.which != 8 && e.which != 9 && e.which != 37 && e.which != 39 && e.which != 46 && !(e.which >= 48 && e.which <= 57) ) {
 		e.preventDefault();
