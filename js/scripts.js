@@ -16,54 +16,60 @@ document.addEventListener("keypress", (function(e) {
 }));
 
 // Add listener event for changing character level
-document.getElementById('characterLevel').addEventListener("keyup", refreshCharacterSheet);
+document.getElementById('characterLevel').addEventListener("focusout", recalculateCharacterSkills);
 
 // Add listener event for changing character stats
-document.getElementById('characterStr').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('characterInt').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('characterAgi').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('characterFoc').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('characterVit').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('characterPer').addEventListener("keyup", refreshCharacterSheet);
+document.getElementById('characterStr').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('characterInt').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('characterAgi').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('characterFoc').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('characterVit').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('characterPer').addEventListener("focusout", recalculateCharacterSkills);
 
 // Add listener event for changing skill levels
-document.getElementById('academicsLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('acrobaticsLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('armortrainingLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('athleticsLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('awarenessLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('coercionLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('computerLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('cultureLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('deceptionLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('drivingLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('dodgeLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('empathyLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('enduranceLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('energyweaponLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('engineeringLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('extremesportsLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('firearmLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('handtohandLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('heavyweaponLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('influenceLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('mechanicsLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('medicineLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('meleeLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('misdirectionLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('performanceLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('pilotingLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('primitivewpnLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('professionLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('resilienceLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('scienceLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('securityLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('stealthLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('survivalLevel').addEventListener("keyup", refreshCharacterSheet);
-document.getElementById('willpowerLevel').addEventListener("keyup", refreshCharacterSheet);
+document.getElementById('academicsLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('acrobaticsLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('armortrainingLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('athleticsLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('awarenessLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('coercionLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('computerLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('cultureLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('deceptionLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('drivingLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('dodgeLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('empathyLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('enduranceLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('energyweaponLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('engineeringLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('extremesportsLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('firearmLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('handtohandLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('heavyweaponLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('influenceLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('mechanicsLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('medicineLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('meleeLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('misdirectionLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('performanceLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('pilotingLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('primitivewpnLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('professionLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('resilienceLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('scienceLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('securityLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('stealthLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('survivalLevel').addEventListener("focusout", recalculateCharacterSkills);
+document.getElementById('willpowerLevel').addEventListener("focusout", recalculateCharacterSkills);
 
-// Refresh all calculated values
-function refreshCharacterSheet(e) {
+function recalculateCharacterSkills(e) {
+	console.log(e.cancelable);
+	// Allow only numbers, backspace, delete, tab, left arrow and right arrow keys; discard everything else
+	if ( e.which != 0 && e.which != 8 && e.which != 9 && e.which != 37 && e.which != 39 && e.which != 46 && !(e.which >= 48 && e.which <= 57) ) {
+		e.preventDefault();
+		return;
+	}
+
 	// Get value of stats input fields
 	var characterStats = {
 		characterStr: parseInt(document.getElementById('characterStr').innerHTML),
@@ -131,7 +137,7 @@ function refreshCharacterSheet(e) {
 		}
 	}
 	if ( !cleanPass ) {
-		refreshCharacterSheet();
+		recalculateCharacterSkills(e);
 		return;
 	}
 
