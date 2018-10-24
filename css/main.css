@@ -15,6 +15,10 @@ body {
   background: #D0D0D0;
 }
 
+.fixedHeight {
+  height: 24px;
+}
+
 .row::after {
   content: "";
   clear: both;
