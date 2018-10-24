@@ -6,7 +6,7 @@ document.addEventListener("keypress", (function(e) {
 	return true;
 }));
 
-// List of ID's relevant to calculating character skills
+// List of ID"s relevant to calculating character skills
 var idsRelevantForCalculatingCharacterSkills = [    "characterLevel",
                                                     "characterStr",
                                                     "characterInt",
@@ -48,7 +48,7 @@ var idsRelevantForCalculatingCharacterSkills = [    "characterLevel",
                                                     "stealthLevel",
                                                     "survivalLevel",
                                                     "willpowerLevel"];
-// Bind all relevant functions to every ID in previous list
+// Bind all relevant functions for calculating character skills
 for ( id in idsRelevantForCalculatingCharacterSkills ) {
 	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("keypress", discardInvalidKeysForSkills);
 	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("focusout", recalculateCharacterSkills);
@@ -57,15 +57,30 @@ for ( id in idsRelevantForCalculatingCharacterSkills ) {
 // Bind function which adjust available wound points to character's VIT
 document.getElementById("characterVit").addEventListener("focusout", adjustWounds);
 
+// Bind function which calculates character's initiative
+document.getElementById("characterAgi").addEventListener("focusout", calculateInitiative);
+document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
+
 // Adjust available wound points
 function adjustWounds(e) {
-	var characterVit = parseInt(document.getElementById('characterVit').innerHTML);
+	var characterVit = parseInt(document.getElementById("characterVit").innerHTML);
 	for (var i = 1; i <= 10; i++) {
 		if ( i <= characterVit || isNaN(characterVit) ) {
 			document.getElementById("vit-" + i).style.display = "initial";
 		} else {
 			document.getElementById("vit-" + i).style.display = "none";
 		}
+	}
+}
+
+// Calculate character"s initiative
+function calculateInitiative(e) {
+	var characterAgi = parseInt(document.getElementById("characterAgi").innerHTML);
+	var characterFoc = parseInt(document.getElementById("characterFoc").innerHTML);
+	if ( isNaN(characterAgi) || isNaN(characterFoc) ) {
+		document.getElementById("characterInitiative").innerHTML = "";
+	} else {
+		document.getElementById("characterInitiative").innerHTML = 20 - (characterAgi + characterFoc);
 	}
 }
 
@@ -83,12 +98,12 @@ function recalculateCharacterSkills(e) {
 
 	// Get value of stats input fields
 	var characterStats = {
-		characterStr: parseInt(document.getElementById('characterStr').innerHTML),
-		characterInt: parseInt(document.getElementById('characterInt').innerHTML),
-		characterAgi: parseInt(document.getElementById('characterAgi').innerHTML),
-		characterFoc: parseInt(document.getElementById('characterFoc').innerHTML),
-		characterVit: parseInt(document.getElementById('characterVit').innerHTML),
-		characterPer: parseInt(document.getElementById('characterPer').innerHTML)
+		characterStr: parseInt(document.getElementById("characterStr").innerHTML),
+		characterInt: parseInt(document.getElementById("characterInt").innerHTML),
+		characterAgi: parseInt(document.getElementById("characterAgi").innerHTML),
+		characterFoc: parseInt(document.getElementById("characterFoc").innerHTML),
+		characterVit: parseInt(document.getElementById("characterVit").innerHTML),
+		characterPer: parseInt(document.getElementById("characterPer").innerHTML)
 	};
 
 	// Create skill-to-stat(s) dependency object
