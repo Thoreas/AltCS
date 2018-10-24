@@ -1,5 +1,4 @@
 /* TODO
- * add check for min/max values
  * prevent input of invalid characters
  * prevent recalculation of everything for non-alphanumeric keys (like TAB)
  *
@@ -15,6 +14,9 @@ document.addEventListener("keypress", (function(e) {
 	}
 	return true;
 }));
+
+// Add listener event for changing character level
+document.getElementById('characterLevel').addEventListener("keyup", refreshCharacterSheet);
 
 // Add listener event for changing character stats
 document.getElementById('characterStr').addEventListener("keyup", refreshCharacterSheet);
@@ -110,19 +112,13 @@ function refreshCharacterSheet(e) {
 		willpower: ["characterFoc"]
 	};
 
-	// Declare helper vars
-	var baseSkill = 0;
-	var cleanPass = true;
-
 	// Declare helper functions
 	var maxOfTwo = function(p1, p2) {
 		return p1 > p2 ? p1 : p2;
 	}
 
-	// DEBUG
-	// console.log("STR " + characterStats["characterStr"] + "; INT " + characterStats["characterInt"] + "; AGI " + characterStats["characterAgi"] + "; FOC " + characterStats["characterFoc"] + "; VIT " + characterStats["characterVit"] + "; PER " + characterStats["characterPer"]);
-
 	// Check and correct the range of input values; if any correcting was done then restart
+	var cleanPass = true;
 	for (var characterStat in characterStats) {
 		if ( characterStats[characterStat] < 1 ) {
 			document.getElementById(characterStat).innerHTML = "1";
@@ -143,18 +139,35 @@ function refreshCharacterSheet(e) {
 	// For one-stat skills: skillLow = 20 - (relevantStat + skillLevel)
 	// For two-stat skills: skillLow = 20 - ( max(relevantStat1,relevantStat2,...) + skillLevel)
 	for (var characterSkill in characterSkills) {
+		// Enforce minimum and maximum values for skill rank
+		var skillLevel = parseInt(document.getElementById(characterSkill + "Level").innerHTML);
+		skillLevel = ( skillLevel > 0 ? skillLevel : 0 );
+		if ( skillLevel < 1 ) {
+			skillLevel = 0;
+			document.getElementById(characterSkill + "Level").innerHTML = "";
+		} else if ( skillLevel > 5 ) {
+			if ( parseInt(document.getElementById("characterLevel").innerHTML) == 1 ) {
+				skillLevel = 5;
+				document.getElementById(characterSkill + "Level").innerHTML = "5";
+			} else if ( skillLevel > 10 ) {
+				skillLevel = 10;
+				document.getElementById(characterSkill + "Level").innerHTML = "10";
+			}
+		}
+		// Select the greatest stat value out of all relevant stats for a given skill
 		var relevantStatValue = 0;
 		for (var characterStat in characterSkills[characterSkill]) {
 			if ( characterStats[characterSkills[characterSkill][characterStat]] > relevantStatValue ) {
 				relevantStatValue = characterStats[characterSkills[characterSkill][characterStat]];
 			}
 		}
-		baseSkill = 20 - (relevantStatValue + parseInt(document.getElementById(characterSkill + "Level").innerHTML));
-		if ( isNaN(baseSkill) || relevantStatValue == 0 ) {
+		// If relevant stat(s) or skill level is not input, cleanup the output
+		if ( relevantStatValue == 0 || skillLevel == 0 ) {
 			document.getElementById(characterSkill + "Low").innerHTML = "";
 			document.getElementById(characterSkill + "Mid").innerHTML = "";
 			document.getElementById(characterSkill + "High").innerHTML = "";
 		} else {
+			var baseSkill = 20 - (relevantStatValue + skillLevel);
 			document.getElementById(characterSkill + "Low").innerHTML = baseSkill;
 			document.getElementById(characterSkill + "Mid").innerHTML = baseSkill + 5;
 			document.getElementById(characterSkill + "High").innerHTML = baseSkill + 10;
