@@ -54,6 +54,21 @@ for ( id in idsRelevantForCalculatingCharacterSkills ) {
 	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("focusout", recalculateCharacterSkills);
 }
 
+// Bind function which adjust available wound points to character's VIT
+document.getElementById("characterVit").addEventListener("focusout", adjustWounds);
+
+// Adjust available wound points
+function adjustWounds(e) {
+	var characterVit = parseInt(document.getElementById('characterVit').innerHTML);
+	for (var i = 1; i <= 10; i++) {
+		if ( i <= characterVit || isNaN(characterVit) ) {
+			document.getElementById("vit-" + i).style.display = "initial";
+		} else {
+			document.getElementById("vit-" + i).style.display = "none";
+		}
+	}
+}
+
 // Discard invalid keys for skills
 function discardInvalidKeysForSkills(e) {
 	// Allow only numbers, backspace, delete, tab, left arrow and right arrow keys; discard everything else
