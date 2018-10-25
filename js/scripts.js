@@ -6,7 +6,25 @@ document.addEventListener("keypress", (function(e) {
 	return true;
 }));
 
-// List of ID"s relevant to calculating character skills
+// Set minimal and maximal values for character's stats
+var minStatValue = {
+	characterStr: 1,
+	characterInt: 1,
+	characterAgi: 1,
+	characterFoc: 1,
+	characterVit: 1,
+	characterPer: 1
+};
+var maxStatValue = {
+	characterStr: 10,
+	characterInt: 10,
+	characterAgi: 10,
+	characterFoc: 10,
+	characterVit: 10,
+	characterPer: 10
+};
+
+// List of ID's relevant to calculating character skills
 var idsRelevantForCalculatingCharacterSkills = [    "characterLevel",
                                                     "characterStr",
                                                     "characterInt",
@@ -54,8 +72,11 @@ for ( id in idsRelevantForCalculatingCharacterSkills ) {
 	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("focusout", recalculateCharacterSkills);
 }
 
-// Bind function which adjust available wound points to character's VIT
+// Bind function which adjusts available wound points to character's VIT
 document.getElementById("characterVit").addEventListener("focusout", adjustWounds);
+
+// Bind function which adjusts required minimum and maximum values for stats depending on species selected
+document.getElementById("selectedSpecies").addEventListener("focusout", adjustMinMaxForSpecies);
 
 // Bind function which calculates character's encumbrance
 document.getElementById("characterStr").addEventListener("focusout", calculateEncumbrance);
@@ -64,6 +85,56 @@ document.getElementById("characterVit").addEventListener("focusout", calculateEn
 // Bind function which calculates character's initiative
 document.getElementById("characterAgi").addEventListener("focusout", calculateInitiative);
 document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
+
+// Adjust required minimum and maximum values for stats depending on species selected
+function adjustMinMaxForSpecies(e) {
+	console.log("Ello...?");
+	var selectedSpecies = document.getElementById("selectedSpecies").value.toLowerCase();
+	switch(selectedSpecies) {
+		case 'human (elaphromorph)':
+			minStatValue["characterAgi"] = 4;
+			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
+			maxStatValue["characterStr"] = 3;
+			maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			break;
+		case 'human (baromorph)':
+			minStatValue["characterStr"] = 4;
+			minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
+			maxStatValue["characterAgi"] = 3;
+			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			break;
+		case 'android':
+			minStatValue["characterVit"] = 4;
+			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterPer"] = 1;
+			maxStatValue["characterPer"] = 4;
+			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = 10;
+			break;
+		case 'briith':
+			minStatValue["characterStr"] = 4;
+			minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
+			maxStatValue["characterAgi"] = 4;
+			maxStatValue["characterInt"] = 5;
+			maxStatValue["characterStr"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			break;
+		case 'nesh':
+			minStatValue["characterFoc"] = 4;
+			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
+			maxStatValue["characterStr"] = 4;
+			maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			break;
+		case 'xayon':
+			minStatValue["characterAgi"] = 4;
+			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
+			maxStatValue["characterFoc"] = 4;
+			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			break;
+		default:
+			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
+			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			break;
+	}
+	recalculateCharacterSkills(e);
+}
 
 // Adjust available wound points
 function adjustWounds(e) {
@@ -110,7 +181,6 @@ function discardInvalidKeysForSkills(e) {
 
 // Recalculate character skills
 function recalculateCharacterSkills(e) {
-
 	// Get value of stats input fields
 	var characterStats = {
 		characterStr: parseInt(document.getElementById("characterStr").innerHTML),
@@ -167,13 +237,13 @@ function recalculateCharacterSkills(e) {
 	// Check and correct the range of input values; if any correcting was done then restart
 	var cleanPass = true;
 	for (var characterStat in characterStats) {
-		if ( characterStats[characterStat] < 1 ) {
-			document.getElementById(characterStat).innerHTML = "1";
-			characterStats[characterStat] = 1;
+		if ( characterStats[characterStat] < minStatValue[characterStat] ) {
+			document.getElementById(characterStat).innerHTML = minStatValue[characterStat];
+			characterStats[characterStat] = minStatValue[characterStat];
 			cleanPass = false;
-		} else if ( characterStats[characterStat] > 10 ) {
-			document.getElementById(characterStat).innerHTML = "10";
-			characterStats[characterStat] = 10;
+		} else if ( characterStats[characterStat] > maxStatValue[characterStat] ) {
+			document.getElementById(characterStat).innerHTML = maxStatValue[characterStat];
+			characterStats[characterStat] = maxStatValue[characterStat];
 			cleanPass = false;
 		}
 	}

@@ -112,6 +112,18 @@ span.inputSmaller {
   width: 30px;
 }
 
+span input {
+  border: none;
+  border-bottom: 1px solid black;
+  color: inherit;
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  padding: none;
+  text-align: center;
+  width: 100%;
+}
+
 div.titleSubtext {
   font-size: x-small;
   margin: -15px auto 0 auto;

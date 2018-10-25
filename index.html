@@ -171,13 +171,22 @@
             <div class="col-12"><h2>Species notes</h2></div>
           </div>
           <div class="row">
-            <div class="col-12"><span class="input" contenteditable></span></div>
+            <datalist id="languages">
+              <option value="Human">
+              <option value="Human (Elaphromorph)">
+              <option value="Human (Baromorph)">
+              <option value="Android">
+              <option value="Briith">
+              <option value="Nesh">
+              <option value="Xayon">
+            </datalist>
+            <div class="col-12"><span><input list="languages" id="selectedSpecies"></input></span></div>
           </div>
           <div class="row">
-            <div class="col-12"><span class="input" contenteditable></span></div>
+            <div class="col-12"><span class="input" id="selectedSpeciesLine2"></span></div>
           </div>
           <div class="row">
-            <div class="col-12"><span class="input" contenteditable></span></div>
+            <div class="col-12"><span class="input" id="selectedSpeciesLine3"></span></div>
           </div>
         </div>
         <div class="row border vspace">
