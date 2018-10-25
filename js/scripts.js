@@ -96,18 +96,27 @@ function adjustMinMaxForSpecies(e) {
 			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
 			maxStatValue["characterStr"] = 3;
 			maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			document.getElementById("selectedSpeciesNotes1").value = "AGI min 4; STR max 3";
+			document.getElementById("selectedSpeciesNotes2").value = "Low G: +2 step to Acrobatics";
+			document.getElementById("selectedSpeciesNotes3").value = "High/Extreme G: -1 step to all penalties";
 			break;
 		case 'human (baromorph)':
 			minStatValue["characterStr"] = 4;
 			minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
 			maxStatValue["characterAgi"] = 3;
 			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			document.getElementById("selectedSpeciesNotes1").value = "STR min 4; AGI max 3; Encum. pen. -1 category";
+			document.getElementById("selectedSpeciesNotes2").value = "High G: no penalty; Extreme G: reduced 2 steps";
+			document.getElementById("selectedSpeciesNotes3").value = "Zero/Low G: -1 step to all penalties";
 			break;
 		case 'android':
 			minStatValue["characterVit"] = 4;
 			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterPer"] = 1;
 			maxStatValue["characterPer"] = 4;
 			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = 10;
+			document.getElementById("selectedSpeciesNotes1").value = "VIT min 4; PER max 4";
+			document.getElementById("selectedSpeciesNotes2").value = "Disengage the Safties; Reprogrammable";
+			document.getElementById("selectedSpeciesNotes3").value = "Artificial Life; Oblivious; CR29";
 			break;
 		case 'briith':
 			minStatValue["characterStr"] = 4;
@@ -115,22 +124,34 @@ function adjustMinMaxForSpecies(e) {
 			maxStatValue["characterAgi"] = 4;
 			maxStatValue["characterInt"] = 5;
 			maxStatValue["characterStr"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			document.getElementById("selectedSpeciesNotes1").value = "STR min 4; AGI max 4; INT max 5";
+			document.getElementById("selectedSpeciesNotes2").value = "Natural armor +1; Initiative checks -1 step";
+			document.getElementById("selectedSpeciesNotes3").value = "High G: no penalty; Extreme G: reduced 2 steps";
 			break;
 		case 'nesh':
 			minStatValue["characterFoc"] = 4;
 			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
 			maxStatValue["characterStr"] = 4;
 			maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			document.getElementById("selectedSpeciesNotes1").value = "FOC min 4; STR max 4";
+			document.getElementById("selectedSpeciesNotes2").value = "Empathy ch. +2 step; Willpower ch. -2 step";
+			document.getElementById("selectedSpeciesNotes3").value = "Bright light -1 step; Science (botany) +2 step";
 			break;
 		case 'xayon':
 			minStatValue["characterAgi"] = 4;
 			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
 			maxStatValue["characterFoc"] = 4;
 			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			document.getElementById("selectedSpeciesNotes1").value = "AGI min 4; FOC max 4";
+			document.getElementById("selectedSpeciesNotes2").value = "Acrobatics +1 step; Evade -1 step to enemies";
+			document.getElementById("selectedSpeciesNotes3").value = "Quadruped sprint; Ambidex; Nearsighted; CR37";
 			break;
 		default:
 			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
 			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
+			document.getElementById("selectedSpeciesNotes1").value = "";
+			document.getElementById("selectedSpeciesNotes2").value = "";
+			document.getElementById("selectedSpeciesNotes3").value = "";
 			break;
 	}
 	recalculateCharacterSkills(e);
@@ -289,6 +310,5 @@ function recalculateCharacterSkills(e) {
 			document.getElementById(characterSkill + "Mid").value = baseSkill + 5;
 			document.getElementById(characterSkill + "High").value = baseSkill + 10;
 		}
-
 	}
 };

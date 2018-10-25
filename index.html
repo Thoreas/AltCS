@@ -8,7 +8,7 @@
   <body>
     <div class="row">
       <h1>A<span>lternit</span>Y</h1>
-      <div class="titleSubtext">Science Fiction Roleplaying Game</div>
+      <div class="title-subtext">Science Fiction Roleplaying Game</div>
     </div>
     <div class="row">
       <div class="col-4"><input type="text" class="fullWidth"></div>
@@ -18,10 +18,10 @@
     <div class="row">
       <div class="col-2">Name</div>
       <div class="col-8"></div>
-      <div class="col-2 alignRight">Archetype</div>
+      <div class="col-2 align-right">Archetype</div>
     </div>
     <div class="row vspace">
-      <div class="col-12 alignCenter">
+      <div class="col-12 align-center">
         <span>Level: <input type="text" class="small" id="characterLevel"></span>
         <span>Hero points: <input type="text" class="small"></span></span>
         <span>Initiative: <input type="text" class="small" id="characterInitiative" readonly="true" tabindex="-1"></span></span>
@@ -179,10 +179,13 @@
             <div class="col-12"><span><input type="text" class="fullWidth" list="languages" id="selectedSpecies"></input></span></div>
           </div>
           <div class="row">
-            <div class="col-12"><input type="text" class="fullWidth" id="selectedSpeciesLine2"></span></div>
+            <div class="col-12"><input type="text" class="fullWidth small-text" id="selectedSpeciesNotes1" readonly="true" tabindex="-1"></div>
           </div>
           <div class="row">
-            <div class="col-12"><input type="text" class="fullWidth" id="selectedSpeciesLine3"></span></div>
+            <div class="col-12"><input type="text" class="fullWidth small-text" id="selectedSpeciesNotes2" readonly="true" tabindex="-1"></div>
+          </div>
+          <div class="row">
+            <div class="col-12"><input type="text" class="fullWidth small-text" id="selectedSpeciesNotes3" readonly="true" tabindex="-1"></div>
           </div>
         </div>
         <div class="row border vspace">
@@ -237,140 +240,140 @@
         <div class="col-2"><i>score</i></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Academics (Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="academicsLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="academicsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller"  id="academicsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller"  id="academicsHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Hand to Hand (Str/Agi)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="handtohandLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="handtohandLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="handtohandMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="handtohandHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Academics (Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="academicsLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="academicsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller"  id="academicsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller"  id="academicsHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Hand to Hand (Str/Agi)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="handtohandLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="handtohandLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="handtohandMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="handtohandHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Acrobatics (Agi)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="acrobaticsLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="acrobaticsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="acrobaticsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="acrobaticsHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Heavy Weapon (Str/Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="heavyweaponLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="heavyweaponLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="heavyweaponMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="heavyweaponHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Acrobatics (Agi)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="acrobaticsLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="acrobaticsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="acrobaticsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="acrobaticsHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Heavy Weapon (Str/Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="heavyweaponLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="heavyweaponLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="heavyweaponMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="heavyweaponHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Armor Training (Str/Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="armortrainingLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="armortrainingLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="armortrainingMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="armortrainingHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Influence (Per)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="influenceLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="influenceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="influenceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="influenceHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Armor Training (Str/Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="armortrainingLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="armortrainingLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="armortrainingMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="armortrainingHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Influence (Per)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="influenceLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="influenceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="influenceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="influenceHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Athletics (Str)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="athleticsLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="athleticsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="athleticsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="athleticsHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Mechanics (Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="mechanicsLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="mechanicsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="mechanicsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="mechanicsHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Athletics (Str)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="athleticsLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="athleticsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="athleticsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="athleticsHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Mechanics (Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="mechanicsLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="mechanicsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="mechanicsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="mechanicsHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Awareness (Foc)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="awarenessLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="awarenessLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="awarenessMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="awarenessHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Medicine (Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="medicineLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="medicineLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="medicineMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="medicineHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Awareness (Foc)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="awarenessLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="awarenessLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="awarenessMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="awarenessHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Medicine (Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="medicineLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="medicineLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="medicineMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="medicineHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Coercion (Per)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="coercionLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="coercionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="coercionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="coercionHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Melee (Str/Agi)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="meleeLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="meleeLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="meleeMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="meleeHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Coercion (Per)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="coercionLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="coercionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="coercionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="coercionHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Melee (Str/Agi)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="meleeLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="meleeLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="meleeMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="meleeHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Computer (Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="computerLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="computerLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="computerMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="computerHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Misdirection (Per)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="misdirectionLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="misdirectionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="misdirectionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="misdirectionHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Computer (Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="computerLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="computerLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="computerMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="computerHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Misdirection (Per)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="misdirectionLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="misdirectionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="misdirectionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="misdirectionHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Culture (Per)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="cultureLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="cultureLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="cultureMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="cultureHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Performance (Per)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="performanceLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="performanceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="performanceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="performanceHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Culture (Per)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="cultureLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="cultureLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="cultureMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="cultureHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Performance (Per)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="performanceLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="performanceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="performanceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="performanceHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Deception (Per)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="deceptionLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="deceptionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="deceptionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="deceptionHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Piloting (Agi/Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="pilotingLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="pilotingLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="pilotingMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="pilotingHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Deception (Per)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="deceptionLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="deceptionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="deceptionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="deceptionHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Piloting (Agi/Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="pilotingLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="pilotingLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="pilotingMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="pilotingHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Driving (Agi)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="drivingLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="drivingLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="drivingMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="drivingHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Primitie Wpn (Agi/Foc)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="primitivewpnLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="primitivewpnLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="primitivewpnMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="primitivewpnHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Driving (Agi)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="drivingLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="drivingLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="drivingMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="drivingHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Primitie Wpn (Agi/Foc)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="primitivewpnLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="primitivewpnLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="primitivewpnMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="primitivewpnHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Dodge (Agi)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="dodgeLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="dodgeLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="dodgeMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="dodgeHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Profession (any)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="professionLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="professionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="professionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="professionHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Dodge (Agi)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="dodgeLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="dodgeLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="dodgeMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="dodgeHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Profession (any)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="professionLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="professionLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="professionMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="professionHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Empathy (Foc/Per)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="empathyLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="empathyLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="empathyMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="empathyHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Resilience (Vit)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="resilienceLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="resilienceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="resilienceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="resilienceHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Empathy (Foc/Per)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="empathyLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="empathyLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="empathyMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="empathyHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Resilience (Vit)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="resilienceLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="resilienceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="resilienceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="resilienceHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Endurance (Vit)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="enduranceLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="enduranceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="enduranceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="enduranceHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Science (Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="scienceLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="scienceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="scienceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="scienceHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Endurance (Vit)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="enduranceLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="enduranceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="enduranceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="enduranceHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Science (Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="scienceLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="scienceLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="scienceMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="scienceHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Energy Wpn (Agi/Foc)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="energyweaponLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="energyweaponLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="energyweaponMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="energyweaponHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Security (Agi/Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="securityLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="securityLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="securityMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="securityHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Energy Wpn (Agi/Foc)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="energyweaponLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="energyweaponLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="energyweaponMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="energyweaponHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Security (Agi/Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="securityLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="securityLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="securityMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="securityHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Engineering (Int)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="engineeringLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="engineeringLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="engineeringMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="engineeringHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Stealth (Agi/Foc)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="stealthLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="stealthLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="stealthMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="stealthHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Engineering (Int)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="engineeringLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="engineeringLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="engineeringMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="engineeringHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Stealth (Agi/Foc)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="stealthLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="stealthLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="stealthMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="stealthHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Extreme Sport (Agi/Vit)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="extremesportsLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="extremesportsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="extremesportsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="extremesportsHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Survival (Vit/Foc)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="survivalLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="survivalLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="survivalMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="survivalHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Extreme Sport (Agi/Vit)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="extremesportsLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="extremesportsLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="extremesportsMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="extremesportsHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Survival (Vit/Foc)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="survivalLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="survivalLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="survivalMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="survivalHigh" readonly="true" tabindex="-1"></div>
       </div>
       <div class="row">
-        <div class="col-3 fixedHeight">Firearm (Agi/Foc)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="firearmLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="firearmLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="firearmMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="firearmHigh" readonly="true" tabindex="-1"></div>
-        <div class="col-3 fixedHeight">Willpower (Foc)</div>
-        <div class="col-1 fixedHeight"><input type="text" class="smaller" id="willpowerLevel"></div>
-        <div class="col-2 fixedHeight"><input type="text" class="smaller" id="willpowerLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="willpowerMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="willpowerHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Firearm (Agi/Foc)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="firearmLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="firearmLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="firearmMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="firearmHigh" readonly="true" tabindex="-1"></div>
+        <div class="col-3 fixed-height">Willpower (Foc)</div>
+        <div class="col-1 fixed-height"><input type="text" class="smaller" id="willpowerLevel"></div>
+        <div class="col-2 fixed-height"><input type="text" class="smaller" id="willpowerLow" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="willpowerMid" readonly="true" tabindex="-1">/<input type="text" class="smaller" id="willpowerHigh" readonly="true" tabindex="-1"></div>
       </div>
     </div>
      <script src="js/scripts.js"></script> 
