@@ -88,40 +88,28 @@ div.border {
   padding: 5px 10px 5px 10px;
 }
 
-span.input, span.inputSmall, span.inputSmaller {
-  border-bottom: 1px solid black;
-  display: inline-block;
-  min-height: 20px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-span.input, span.inputSmall {
-   margin: 5px 0 -5px 0;
-}
-
-span.input {
-  width: 100%;
-}
-
-span.inputSmall {
-  width: 70px;
-}
-
 span.inputSmaller {
   width: 30px;
 }
 
-span input {
+input.fullWidth, input.small, input.smaller {
   border: none;
   border-bottom: 1px solid black;
-  color: inherit;
+  color: black;
   display: inline;
   font-family: inherit;
   font-size: inherit;
-  padding: none;
+  padding: 0;
   text-align: center;
   width: 100%;
+}
+
+input.small {
+  width: 70px;
+}
+
+input.smaller {
+  width: 30px;
 }
 
 div.titleSubtext {

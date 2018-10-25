@@ -138,7 +138,7 @@ function adjustMinMaxForSpecies(e) {
 
 // Adjust available wound points
 function adjustWounds(e) {
-	var characterVit = parseInt(document.getElementById("characterVit").innerHTML);
+	var characterVit = parseInt(document.getElementById("characterVit").value);
 	for (var i = 1; i <= 10; i++) {
 		if ( i <= characterVit || isNaN(characterVit) ) {
 			document.getElementById("vit-" + i).style.display = "initial";
@@ -150,23 +150,23 @@ function adjustWounds(e) {
 
 // Calculate character's encumbrance value
 function calculateEncumbrance(e) {
-	var characterStr = parseInt(document.getElementById("characterStr").innerHTML);
-	var characterVit = parseInt(document.getElementById("characterVit").innerHTML);
+	var characterStr = parseInt(document.getElementById("characterStr").value);
+	var characterVit = parseInt(document.getElementById("characterVit").value);
 	if ( isNaN(characterStr) || isNaN(characterVit) ) {
-		document.getElementById("characterEncumbrance").innerHTML = "";
+		document.getElementById("characterEncumbrance").value = "";
 	} else {
-		document.getElementById("characterEncumbrance").innerHTML = 10 + 2 * ( characterStr - 3 > 0 ? characterStr - 3 : 0 ) + 2 * ( characterVit - 3 > 0 ? characterVit - 3 : 0 );
+		document.getElementById("characterEncumbrance").value = 10 + 2 * ( characterStr - 3 > 0 ? characterStr - 3 : 0 ) + 2 * ( characterVit - 3 > 0 ? characterVit - 3 : 0 );
 	}
 }
 
 // Calculate character's initiative
 function calculateInitiative(e) {
-	var characterAgi = parseInt(document.getElementById("characterAgi").innerHTML);
-	var characterFoc = parseInt(document.getElementById("characterFoc").innerHTML);
+	var characterAgi = parseInt(document.getElementById("characterAgi").value);
+	var characterFoc = parseInt(document.getElementById("characterFoc").value);
 	if ( isNaN(characterAgi) || isNaN(characterFoc) ) {
-		document.getElementById("characterInitiative").innerHTML = "";
+		document.getElementById("characterInitiative").value = "";
 	} else {
-		document.getElementById("characterInitiative").innerHTML = 20 - (characterAgi + characterFoc);
+		document.getElementById("characterInitiative").value = 20 - (characterAgi + characterFoc);
 	}
 }
 
@@ -183,12 +183,12 @@ function discardInvalidKeysForSkills(e) {
 function recalculateCharacterSkills(e) {
 	// Get value of stats input fields
 	var characterStats = {
-		characterStr: parseInt(document.getElementById("characterStr").innerHTML),
-		characterInt: parseInt(document.getElementById("characterInt").innerHTML),
-		characterAgi: parseInt(document.getElementById("characterAgi").innerHTML),
-		characterFoc: parseInt(document.getElementById("characterFoc").innerHTML),
-		characterVit: parseInt(document.getElementById("characterVit").innerHTML),
-		characterPer: parseInt(document.getElementById("characterPer").innerHTML)
+		characterStr: parseInt(document.getElementById("characterStr").value),
+		characterInt: parseInt(document.getElementById("characterInt").value),
+		characterAgi: parseInt(document.getElementById("characterAgi").value),
+		characterFoc: parseInt(document.getElementById("characterFoc").value),
+		characterVit: parseInt(document.getElementById("characterVit").value),
+		characterPer: parseInt(document.getElementById("characterPer").value)
 	};
 
 	// Create skill-to-stat(s) dependency object
@@ -238,11 +238,11 @@ function recalculateCharacterSkills(e) {
 	var cleanPass = true;
 	for (var characterStat in characterStats) {
 		if ( characterStats[characterStat] < minStatValue[characterStat] ) {
-			document.getElementById(characterStat).innerHTML = minStatValue[characterStat];
+			document.getElementById(characterStat).value = minStatValue[characterStat];
 			characterStats[characterStat] = minStatValue[characterStat];
 			cleanPass = false;
 		} else if ( characterStats[characterStat] > maxStatValue[characterStat] ) {
-			document.getElementById(characterStat).innerHTML = maxStatValue[characterStat];
+			document.getElementById(characterStat).value = maxStatValue[characterStat];
 			characterStats[characterStat] = maxStatValue[characterStat];
 			cleanPass = false;
 		}
@@ -257,18 +257,18 @@ function recalculateCharacterSkills(e) {
 	// For two-stat skills: skillLow = 20 - ( max(relevantStat1,relevantStat2,...) + skillLevel)
 	for (var characterSkill in characterSkills) {
 		// Enforce minimum and maximum values for skill rank
-		var skillLevel = parseInt(document.getElementById(characterSkill + "Level").innerHTML);
+		var skillLevel = parseInt(document.getElementById(characterSkill + "Level").value);
 		skillLevel = ( skillLevel > 0 ? skillLevel : 0 );
 		if ( skillLevel < 1 ) {
 			skillLevel = 0;
-			document.getElementById(characterSkill + "Level").innerHTML = "";
+			document.getElementById(characterSkill + "Level").value = "";
 		} else if ( skillLevel > 5 ) {
-			if ( parseInt(document.getElementById("characterLevel").innerHTML) == 1 ) {
+			if ( parseInt(document.getElementById("characterLevel").value) == 1 ) {
 				skillLevel = 5;
-				document.getElementById(characterSkill + "Level").innerHTML = "5";
+				document.getElementById(characterSkill + "Level").value = "5";
 			} else if ( skillLevel > 10 ) {
 				skillLevel = 10;
-				document.getElementById(characterSkill + "Level").innerHTML = "10";
+				document.getElementById(characterSkill + "Level").value = "10";
 			}
 		}
 		// Select the greatest stat value out of all relevant stats for a given skill
@@ -280,14 +280,14 @@ function recalculateCharacterSkills(e) {
 		}
 		// If relevant stat(s) or skill level is not input, cleanup the output
 		if ( relevantStatValue == 0 || skillLevel == 0 ) {
-			document.getElementById(characterSkill + "Low").innerHTML = "";
-			document.getElementById(characterSkill + "Mid").innerHTML = "";
-			document.getElementById(characterSkill + "High").innerHTML = "";
+			document.getElementById(characterSkill + "Low").value = "";
+			document.getElementById(characterSkill + "Mid").value = "";
+			document.getElementById(characterSkill + "High").value = "";
 		} else {
 			var baseSkill = 20 - (relevantStatValue + skillLevel);
-			document.getElementById(characterSkill + "Low").innerHTML = baseSkill;
-			document.getElementById(characterSkill + "Mid").innerHTML = baseSkill + 5;
-			document.getElementById(characterSkill + "High").innerHTML = baseSkill + 10;
+			document.getElementById(characterSkill + "Low").value = baseSkill;
+			document.getElementById(characterSkill + "Mid").value = baseSkill + 5;
+			document.getElementById(characterSkill + "High").value = baseSkill + 10;
 		}
 
 	}
