@@ -474,11 +474,6 @@ function recalculateCharacterSkills(e) {
 		willpower: ["characterFoc"]
 	};
 
-	// Declare helper functions
-	var maxOfTwo = function(p1, p2) {
-		return p1 > p2 ? p1 : p2;
-	}
-
 	// Check and correct the range of input values; if any correcting was done then restart
 	var cleanPass = true;
 	for (var characterStat in characterStats) {
