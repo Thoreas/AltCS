@@ -67,7 +67,7 @@ var idsRelevantForCalculatingCharacterSkills = [    "characterLevel",
                                                     "survivalLevel",
                                                     "willpowerLevel"];
 // Bind all relevant functions for calculating character skills
-for ( id in idsRelevantForCalculatingCharacterSkills ) {
+for ( var id in idsRelevantForCalculatingCharacterSkills ) {
 	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("keypress", discardInvalidKeysForSkills);
 	document.getElementById(idsRelevantForCalculatingCharacterSkills[id]).addEventListener("focusout", recalculateCharacterSkills);
 }
@@ -82,7 +82,10 @@ document.getElementById("selectedSpecies").addEventListener("focusout", adjustMi
 document.getElementById("selectedSpecies").addEventListener("focusout", calculateArmor);
 document.getElementById("primaryArmor").addEventListener("focusout", calculateArmor);
 document.getElementById("additionalArmor").addEventListener("focusout", calculateArmor);
-document.getElementById("armortrainingLevel").addEventListener("focusout", calculateArmor);
+var idsRelevantToArmorPenalties = ['acrobaticsLevel','armortrainingLevel','athleticsLevel','dodgeLevel','enduranceLevel','extremesportsLevel','stealthLevel'];
+for ( var id in idsRelevantToArmorPenalties ) {
+	document.getElementById(idsRelevantToArmorPenalties[id]).addEventListener("focusout", calculateArmor);
+}
 
 // Bind function which calculates character's encumbrance
 document.getElementById("characterStr").addEventListener("focusout", calculateEncumbrance);
@@ -488,12 +491,14 @@ function calculateArmor(e) {
 		document.getElementById("additionalArmorWeight").value = additionalArmorWeight;
 	}
 	// Populate skill penalty steps
-	var skillsToGetPenalized = ['acrobaticsSteps','athleticsSteps','dodgeSteps','enduranceSteps','extremesportsSteps','stealthSteps'];
+	var skillsToGetPenalized = ['acrobatics','athletics','dodge','endurance','extremesports','stealth'];
 	if ( primaryArmorWeight == 0 && additionalArmorWeight == 0 ) {
 		stepsPenalty = 0;
 	}
 	for ( var skill in skillsToGetPenalized ) {
-		document.getElementById(skillsToGetPenalized[skill]).innerHTML = stepValueToDie(stepsPenalty);
+		if ( document.getElementById(skillsToGetPenalized[skill] + "Level").value != "" ) {
+			document.getElementById(skillsToGetPenalized[skill] + "Steps").innerHTML = stepValueToDie(stepsPenalty);
+		}
 	}
 }
 
