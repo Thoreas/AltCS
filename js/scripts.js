@@ -78,6 +78,11 @@ document.getElementById("characterVit").addEventListener("focusout", adjustWound
 // Bind function which adjusts required minimum and maximum values for stats depending on species selected
 document.getElementById("selectedSpecies").addEventListener("focusout", adjustMinMaxForSpecies);
 
+// Bind function which calculates character's armor
+document.getElementById("selectedSpecies").addEventListener("focusout", calculateArmor);
+document.getElementById("primaryArmor").addEventListener("focusout", calculateArmor);
+document.getElementById("additionalArmor").addEventListener("focusout", calculateArmor);
+
 // Bind function which calculates character's encumbrance
 document.getElementById("characterStr").addEventListener("focusout", calculateEncumbrance);
 document.getElementById("characterVit").addEventListener("focusout", calculateEncumbrance);
@@ -88,7 +93,6 @@ document.getElementById("characterFoc").addEventListener("focusout", calculateIn
 
 // Adjust required minimum and maximum values for stats depending on species selected
 function adjustMinMaxForSpecies(e) {
-	console.log("Ello...?");
 	var selectedSpecies = document.getElementById("selectedSpecies").value.toLowerCase();
 	switch(selectedSpecies) {
 		case 'human (elaphromorph)':
@@ -166,6 +170,226 @@ function adjustWounds(e) {
 		} else {
 			document.getElementById("vit-" + i).style.display = "none";
 		}
+	}
+}
+
+// Calculate character's armor
+function calculateArmor(e) {
+	var characterSpeed = 20;	
+	var reductionPhysical = 0;
+	var reductionEnergy = 0;
+	// Briith have a natural bonus of "1"
+	if ( document.getElementById("selectedSpecies").value.toLowerCase() == "briith" ) {
+		reductionPhysical++;
+		reductionEnergy++;
+	}
+	// Get primary armor; adjust values
+	var primaryArmorWeight = 0;
+	var primaryArmor = document.getElementById("primaryArmor").value.toLowerCase();
+	switch(primaryArmor) {
+		case 'hide armor':
+			characterSpeed -= 2;
+			primaryArmorWeight = 8;
+			reductionPhysical += 2;
+			reductionEnergy += 0;
+			break;
+		case 'bronze cuirass':
+			characterSpeed -= 6;
+			primaryArmorWeight = 30;
+			reductionPhysical += 4;
+			reductionEnergy += 0;
+			break;
+		case 'shield':
+			characterSpeed -= 2;
+			primaryArmorWeight = 8;
+			break;
+		case 'chain mail':
+			characterSpeed -= 6;
+			primaryArmorWeight = 25;
+			reductionPhysical += 4;
+			reductionEnergy += 0;
+			break;
+		case 'plate mail':
+			characterSpeed -= 6;
+			primaryArmorWeight = 30;
+			reductionPhysical += 6;
+			reductionEnergy += 1;
+			break;
+		case 'breastplate':
+			characterSpeed -= 4;
+			primaryArmorWeight = 10;
+			reductionPhysical += 4;
+			reductionEnergy += 0;
+			break;
+		case 'flak jacket':
+			characterSpeed -= 2;
+			primaryArmorWeight = 5;
+			reductionPhysical += 2;
+			reductionEnergy += 0;
+			break;
+		case 'police vest':
+			primaryArmorWeight = 3;
+			reductionPhysical += 3;
+			reductionEnergy += 0;
+			break;
+		case 'riot shield':
+			primaryArmorWeight = 5;
+			break;
+		case 'tactical armor':
+			characterSpeed -= 4;
+			primaryArmorWeight = 15;
+			reductionPhysical += 5;
+			reductionEnergy += 1;
+			break;
+		case 'carbon fiber plate':
+			characterSpeed -= 4;
+			primaryArmorWeight = 12;
+			reductionPhysical += 6;
+			reductionEnergy += 3;
+			break;
+		case 'decelerator belt':
+			primaryArmorWeight = 2;
+			reductionPhysical += 3;
+			reductionEnergy += 1;
+			break;
+		case 'duraweb coat':
+			primaryArmorWeight = 2;
+			reductionPhysical += 1;
+			reductionEnergy += 3;
+			break;
+		case 'exoskeleton':
+			characterSpeed -= 2;
+			primaryArmorWeight = 80;
+			reductionPhysical += 5;
+			reductionEnergy += 4;
+			break;
+		case 'hardmesh uniform':
+			primaryArmorWeight = 2;
+			reductionPhysical += 2;
+			reductionEnergy += 2;
+			break;
+		case 'polymer mail':
+			characterSpeed -= 4;
+			primaryArmorWeight = 8;
+			reductionPhysical += 4;
+			reductionEnergy += 2;
+			break;
+		case 'stealthsuit':
+			primaryArmorWeight = 15;
+			reductionPhysical += 3;
+			reductionEnergy += 3;
+			break;
+		case 'vacuum armor':
+			characterSpeed -= 4;
+			primaryArmorWeight = 30;
+			reductionPhysical += 4;
+			reductionEnergy += 3;
+			break;
+		case 'battlesuit, assault':
+			characterSpeed -= 4;
+			primaryArmorWeight = 200;
+			reductionPhysical += 9;
+			reductionEnergy += 9;
+			break;
+		case 'battlesuit, raider':
+			characterSpeed -= 2;
+			primaryArmorWeight = 120;
+			reductionPhysical += 7;
+			reductionEnergy += 7;
+			break;
+		case 'forcefield':
+			primaryArmorWeight = 0;
+			break;
+		case 'grav deflector':
+			primaryArmorWeight = 2;
+			break;
+		case 'isihlangu':
+			primaryArmorWeight = 1;
+			break;
+		case 'nanoweave suit':
+			primaryArmorWeight = 3;
+			reductionPhysical += 3;
+			reductionEnergy += 3;
+			break;
+		case 'adamant mesh':
+			primaryArmorWeight = 2;
+			reductionPhysical += 4;
+			reductionEnergy += 4;
+			break;
+		case 'aegis field':
+			primaryArmorWeight = 1;
+			reductionPhysical += 2;
+			reductionEnergy += 3;
+			break;
+		case 'displacer unit':
+			primaryArmorWeight = 0;
+			break;
+		case 'warsuit, hussar':
+			characterSpeed -= 4;
+			primaryArmorWeight = 100;
+			reductionPhysical += 10;
+			reductionEnergy += 10;
+			break;
+		case 'none':
+		default:
+			break;
+	}
+	// Get additional armor; adjust values
+	var additionalArmorWeight = 0;
+	var additionalArmor = document.getElementById("additionalArmor").value.toLowerCase();
+	switch(additionalArmor) {
+		case 'shield':
+			characterSpeed -= 2;
+			additionalArmorWeight = 8;
+			break;
+		case 'riot shield':
+			additionalArmorWeight = 5;
+			break;
+		case 'decelerator belt':
+			additionalArmorWeight = 2;
+			reductionPhysical += 3;
+			reductionEnergy += 1;
+			break;
+		case 'forcefield':
+			additionalArmorWeight = 0;
+			break;
+		case 'grav deflector':
+			additionalArmorWeight = 2;
+			break;
+		case 'isihlangu':
+			additionalArmorWeight = 1;
+			break;
+		case 'aegis field':
+			additionalArmorWeight = 1;
+			reductionPhysical += 2;
+			reductionEnergy += 3;
+			break;
+		case 'displacer unit':
+			additionalArmorWeight = 0;
+			break;
+		default:
+			break;
+	}
+
+	document.getElementById("characterSpeed").value = characterSpeed;
+	// Populate total
+	if ( reductionPhysical == 0 && reductionEnergy == 0 ) {
+		document.getElementById("reductionPhysical").value = "";
+		document.getElementById("reductionEnergy").value = "";
+	} else {
+		document.getElementById("reductionPhysical").value = reductionPhysical;
+		document.getElementById("reductionEnergy").value = reductionEnergy;
+	}
+	// Populate weight
+	if ( primaryArmorWeight == 0 ) {
+		document.getElementById("primaryArmorWeight").value = "";
+	} else {
+		document.getElementById("primaryArmorWeight").value = primaryArmorWeight;
+	}
+	if ( additionalArmorWeight == 0 ) {
+		document.getElementById("additionalArmorWeight").value = "";
+	} else {
+		document.getElementById("additionalArmorWeight").value = additionalArmorWeight;
 	}
 }
 

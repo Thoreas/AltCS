@@ -25,7 +25,7 @@
         <span>Level: <input type="text" class="small" id="characterLevel"></span>
         <span>Hero points: <input type="text" class="small"></span>
         <span>Initiative: <input type="text" class="small" id="characterInitiative" readonly tabindex="-1"></span>
-        <span>Speed: <input type="text" class="small"></span>
+        <span>Speed: <input type="text" class="small" id="characterSpeed" readonly tabindex="-1"></span>
         <span>Encumbrance: <input type="text" class="small" id="characterEncumbrance" readonly tabindex="-1"></span>
       </div>
     </div>
@@ -99,7 +99,7 @@
             <div class="col-12"><h2>Armor and Damage</h2></div>
           </div>
           <div class="row">
-            <div class="col-12">Armor reduces <b>physical</b> by <input type="text" class="small">, <b>energy</b> by <input type="text" class="small">.</div>
+            <div class="col-12">Armor reduces <b>physical</b> by <input type="text" class="small" id="reductionPhysical" readonly tabindex="-1">, <b>energy</b> by <input type="text" class="small" id="reductionEnergy" readonly tabindex="-1">.</div>
           </div>
           <div class="row">
             <div class="col-3"><i>severity</i></div>
@@ -197,12 +197,53 @@
             <div class="col-3"><i>mass</i></div>
           </div>
           <div class="row">
-            <div class="col-9"><input type="text" class="fullWidth"></div>
-            <div class="col-3"><input type="text" class="fullWidth"></div>
+            <datalist id="armors">
+              <option value="Hide Armor">
+              <option value="Bronze Cuirass">
+              <option value="Shield">
+              <option value="Chain Mail">
+              <option value="Plate Mail">
+              <option value="Breastplate">
+              <option value="Flak Jacket">
+              <option value="Police Vest">
+              <option value="Riot Shield">
+              <option value="Tactical Armor">
+              <option value="Carbon Fiber Plate">
+              <option value="Decelartor Belt">
+              <option value="DuraWeb Coat">
+              <option value="Exoskeleton">
+              <option value="Hardmesh Uniform">
+              <option value="Polymer Mail">
+              <option value="Stealthsuit">
+              <option value="Vacuum Armor">
+              <option value="Battlesuit, Assault">
+              <option value="Battlesuit, Raider">
+              <option value="Force Shield">
+              <option value="Grav Deflector">
+              <option value="Isihlangu">
+              <option value="Nanoweave Suit">
+              <option value="Adamant Mesh">
+              <option value="Aegis Field">
+              <option value="Displacer Unit">
+              <option value="Warsuit, Hussar">
+              <option value="None">
+            </datalist>
+            <div class="col-9"><input type="text" class="fullWidth" list="armors" id="primaryArmor"></div>
+            <div class="col-3"><input type="text" class="fullWidth" id="primaryArmorWeight" readonly tabindex="-1"></div>
           </div>
           <div class="row">
-            <div class="col-9"><input type="text" class="fullWidth"></div>
-            <div class="col-3"><input type="text" class="fullWidth"></div>
+            <datalist id="additionalArmors">
+              <option value="Shield">
+              <option value="Riot Shield">
+              <option value="Decelartor Belt">
+              <option value="Force Shield">
+              <option value="Grav Deflector">
+              <option value="Isihlangu">
+              <option value="Aegis Field">
+              <option value="Displacer Unit">
+            </datalist>
+            <div class="col-9"><input type="text" class="fullWidth" list="additionalArmors" id="additionalArmor"></div>
+            <div class="col-3"><input type="text" class="fullWidth" id="additionalArmorWeight" readonly tabindex="-1"></div>
           </div>
           <div class="row">
             <div class="col-9"><input type="text" class="fullWidth"></div>
