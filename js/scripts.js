@@ -82,6 +82,7 @@ document.getElementById("selectedSpecies").addEventListener("focusout", adjustMi
 document.getElementById("selectedSpecies").addEventListener("focusout", calculateArmor);
 document.getElementById("primaryArmor").addEventListener("focusout", calculateArmor);
 document.getElementById("additionalArmor").addEventListener("focusout", calculateArmor);
+document.getElementById("armortrainingLevel").addEventListener("focusout", calculateArmor);
 
 // Bind function which calculates character's encumbrance
 document.getElementById("characterStr").addEventListener("focusout", calculateEncumbrance);
@@ -90,6 +91,38 @@ document.getElementById("characterVit").addEventListener("focusout", calculateEn
 // Bind function which calculates character's initiative
 document.getElementById("characterAgi").addEventListener("focusout", calculateInitiative);
 document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
+
+// Transfor an integer value for bonus/penalty steps into string equivalent
+function stepValueToDie(stepValue) {
+	switch(stepValue) {
+		case 6:
+			return "+2d20";
+		case 5:
+			return "+d20";
+		case 4:
+			return "+d12";
+		case 3:
+			return "+d8";
+		case 2:
+			return "+d6";
+		case 1:
+			return "+d4";
+		case 0:
+			return "";
+		case -1:
+			return "-d4";
+		case -2:
+			return "-d6";
+		case -3:
+			return "-d8";
+		case -4:
+			return "-d12";
+		case -5:
+			return "-d20";
+		case -6:
+			return "-2d20";
+	}
+}
 
 // Adjust required minimum and maximum values for stats depending on species selected
 function adjustMinMaxForSpecies(e) {
@@ -178,10 +211,55 @@ function calculateArmor(e) {
 	var characterSpeed = 20;	
 	var reductionPhysical = 0;
 	var reductionEnergy = 0;
+	var stepsPenalty = 0;
 	// Briith have a natural bonus of "1"
 	if ( document.getElementById("selectedSpecies").value.toLowerCase() == "briith" ) {
 		reductionPhysical++;
 		reductionEnergy++;
+	}
+	// Calculate panalty reductions base on Armor Training skill level
+	switch(parseInt(document.getElementById("armortrainingLevel").value)) {
+		case 1:
+			stepsPenalty -= 1;
+			break;
+		case 2:
+			characterSpeed += 2;
+			stepsPenalty -= 1;
+			break;
+		case 3:
+			characterSpeed += 2;
+			stepsPenalty -= 1;
+			break;
+		case 4:
+			characterSpeed += 2;
+			stepsPenalty -= 2;
+			break;
+		case 5:
+			characterSpeed += 4;
+			stepsPenalty -= 2;
+			break;
+		case 6:
+			characterSpeed += 4;
+			stepsPenalty -= 2;
+			break;
+		case 7:
+			characterSpeed += 4;
+			stepsPenalty -= 3;
+			break;
+		case 8:
+			characterSpeed += 6;
+			stepsPenalty -= 3;
+			break;
+		case 9:
+			characterSpeed += 6;
+			stepsPenalty -= 3;
+			break;
+		case 10:
+			characterSpeed += 6;
+			stepsPenalty -= 3;
+			break;
+		default:
+			break;
 	}
 	// Get primary armor; adjust values
 	var primaryArmorWeight = 0;
@@ -192,40 +270,47 @@ function calculateArmor(e) {
 			primaryArmorWeight = 8;
 			reductionPhysical += 2;
 			reductionEnergy += 0;
+			stepsPenalty += 1;
 			break;
 		case 'bronze cuirass':
 			characterSpeed -= 6;
 			primaryArmorWeight = 30;
 			reductionPhysical += 4;
 			reductionEnergy += 0;
+			stepsPenalty += 2;
 			break;
 		case 'shield':
 			characterSpeed -= 2;
 			primaryArmorWeight = 8;
+			stepsPenalty += 1;
 			break;
 		case 'chain mail':
 			characterSpeed -= 6;
 			primaryArmorWeight = 25;
 			reductionPhysical += 4;
 			reductionEnergy += 0;
+			stepsPenalty += 3;
 			break;
 		case 'plate mail':
 			characterSpeed -= 6;
 			primaryArmorWeight = 30;
 			reductionPhysical += 6;
 			reductionEnergy += 1;
+			stepsPenalty += 2;
 			break;
 		case 'breastplate':
 			characterSpeed -= 4;
 			primaryArmorWeight = 10;
 			reductionPhysical += 4;
 			reductionEnergy += 0;
+			stepsPenalty += 2;
 			break;
 		case 'flak jacket':
 			characterSpeed -= 2;
 			primaryArmorWeight = 5;
 			reductionPhysical += 2;
 			reductionEnergy += 0;
+			stepsPenalty += 1;
 			break;
 		case 'police vest':
 			primaryArmorWeight = 3;
@@ -234,18 +319,21 @@ function calculateArmor(e) {
 			break;
 		case 'riot shield':
 			primaryArmorWeight = 5;
+			stepsPenalty += 1;
 			break;
 		case 'tactical armor':
 			characterSpeed -= 4;
 			primaryArmorWeight = 15;
 			reductionPhysical += 5;
 			reductionEnergy += 1;
+			stepsPenalty += 2;
 			break;
 		case 'carbon fiber plate':
 			characterSpeed -= 4;
 			primaryArmorWeight = 12;
 			reductionPhysical += 6;
 			reductionEnergy += 3;
+			stepsPenalty += 2;
 			break;
 		case 'decelerator belt':
 			primaryArmorWeight = 2;
@@ -262,6 +350,7 @@ function calculateArmor(e) {
 			primaryArmorWeight = 80;
 			reductionPhysical += 5;
 			reductionEnergy += 4;
+			stepsPenalty += 3;
 			break;
 		case 'hardmesh uniform':
 			primaryArmorWeight = 2;
@@ -273,6 +362,7 @@ function calculateArmor(e) {
 			primaryArmorWeight = 8;
 			reductionPhysical += 4;
 			reductionEnergy += 2;
+			stepsPenalty += 2;
 			break;
 		case 'stealthsuit':
 			primaryArmorWeight = 15;
@@ -284,18 +374,21 @@ function calculateArmor(e) {
 			primaryArmorWeight = 30;
 			reductionPhysical += 4;
 			reductionEnergy += 3;
+			stepsPenalty += 2;
 			break;
 		case 'battlesuit, assault':
 			characterSpeed -= 4;
 			primaryArmorWeight = 200;
 			reductionPhysical += 9;
 			reductionEnergy += 9;
+			stepsPenalty += 3;
 			break;
 		case 'battlesuit, raider':
 			characterSpeed -= 2;
 			primaryArmorWeight = 120;
 			reductionPhysical += 7;
 			reductionEnergy += 7;
+			stepsPenalty += 3;
 			break;
 		case 'forcefield':
 			primaryArmorWeight = 0;
@@ -329,6 +422,7 @@ function calculateArmor(e) {
 			primaryArmorWeight = 100;
 			reductionPhysical += 10;
 			reductionEnergy += 10;
+			stepsPenalty += 2;
 			break;
 		case 'none':
 		default:
@@ -341,9 +435,11 @@ function calculateArmor(e) {
 		case 'shield':
 			characterSpeed -= 2;
 			additionalArmorWeight = 8;
+			stepsPenalty += 1;
 			break;
 		case 'riot shield':
 			additionalArmorWeight = 5;
+			stepsPenalty += 1;
 			break;
 		case 'decelerator belt':
 			additionalArmorWeight = 2;
@@ -370,8 +466,8 @@ function calculateArmor(e) {
 		default:
 			break;
 	}
-
-	document.getElementById("characterSpeed").value = characterSpeed;
+	// Populate speed
+	document.getElementById("characterSpeed").value = ( characterSpeed > 20 ? 20 : characterSpeed );
 	// Populate total
 	if ( reductionPhysical == 0 && reductionEnergy == 0 ) {
 		document.getElementById("reductionPhysical").value = "";
@@ -390,6 +486,14 @@ function calculateArmor(e) {
 		document.getElementById("additionalArmorWeight").value = "";
 	} else {
 		document.getElementById("additionalArmorWeight").value = additionalArmorWeight;
+	}
+	// Populate skill penalty steps
+	var skillsToGetPenalized = ['acrobaticsSteps','athleticsSteps','dodgeSteps','enduranceSteps','extremesportsSteps','stealthSteps'];
+	if ( primaryArmorWeight == 0 && additionalArmorWeight == 0 ) {
+		stepsPenalty = 0;
+	}
+	for ( var skill in skillsToGetPenalized ) {
+		document.getElementById(skillsToGetPenalized[skill]).innerHTML = stepValueToDie(stepsPenalty);
 	}
 }
 
