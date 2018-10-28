@@ -6,14 +6,23 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
+    <div class="row no-print">
+      <div class="col-3">
+        <input type="button" id="saveButton" value="Save">
+        <input type="button" id="loadButton" value="Load">
+      </div>
+      <div class="col-9">
+        <input type="text" class="fullWidth small-text" id="characterSaveString">
+      </div>
+    </div>
     <div class="row">
       <h1>A<span>lternit</span>Y</h1>
       <div class="title-subtext">Science Fiction Roleplaying Game</div>
     </div>
     <div class="row">
-      <div class="col-4"><input type="text" class="fullWidth"></div>
+      <div class="col-4"><input type="text" class="fullWidth" id="characterName"></div>
       <div class="col-4"></div>
-      <div class="col-4"><input type="text" class="fullWidth"></div>
+      <div class="col-4"><input type="text" class="fullWidth" id="characterArchetype"></div>
     </div>
     <div class="row">
       <div class="col-2">Name</div>
@@ -23,7 +32,7 @@
     <div class="row vspace">
       <div class="col-12 align-center">
         <span>Level: <input type="text" class="small" id="characterLevel"></span>
-        <span>Hero points: <input type="text" class="small"></span>
+        <span>Hero points: <input type="text" class="small" id="characterHeroPoints"></span>
         <span>Initiative: <input type="text" class="small" id="characterInitiative" readonly tabindex="-1"></span>
         <span>Speed: <input type="text" class="small" id="characterSpeed" readonly tabindex="-1"></span>
         <span>Encumbrance: <input type="text" class="small" id="characterEncumbrance" readonly tabindex="-1"></span>

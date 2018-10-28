@@ -111,3 +111,9 @@ div.title-subtext {
   text-align: center;
   text-transform: uppercase;
 }
+
+@media print {
+  .no-print, .no-print * {
+    display: none !important;
+  }
+}

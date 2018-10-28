@@ -24,7 +24,7 @@ var maxStatValue = {
 	characterPer: 10
 };
 
-// List of ID's relevant to calculating character skills
+// List of IDs relevant to calculating character skills
 var idsRelevantForCalculatingCharacterSkills = [    "characterLevel",
                                                     "characterStr",
                                                     "characterInt",
@@ -94,6 +94,10 @@ document.getElementById("characterVit").addEventListener("focusout", calculateEn
 // Bind function which calculates character's initiative
 document.getElementById("characterAgi").addEventListener("focusout", calculateInitiative);
 document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
+
+// Bind functions for saving/loading a character
+document.getElementById("saveButton").addEventListener("click", saveCharacter);
+document.getElementById("loadButton").addEventListener("click", loadCharacter);
 
 // Transfor an integer value for bonus/penalty steps into string equivalent
 function stepValueToDie(stepValue) {
@@ -640,3 +644,81 @@ function recalculateCharacterSkills(e) {
 		}
 	}
 };
+
+// List of all inputable IDs 
+var valuesDefiningACharacter = [     "characterName",
+                                     "characterArchetype",
+                                     "characterLevel",
+                                     "characterHeroPoints",
+                                     "characterStr",
+                                     "characterInt",
+                                     "characterAgi",
+                                     "characterFoc",
+                                     "characterVit",
+                                     "characterPer",
+                                     "selectedSpecies",
+                                     "primaryArmor",
+                                     "additionalArmor",
+                                     "academicsLevel",
+                                     "acrobaticsLevel",
+                                     "armortrainingLevel",
+                                     "athleticsLevel",
+                                     "awarenessLevel",
+                                     "coercionLevel",
+                                     "computerLevel",
+                                     "cultureLevel",
+                                     "deceptionLevel",
+                                     "drivingLevel",
+                                     "dodgeLevel",
+                                     "empathyLevel",
+                                     "enduranceLevel",
+                                     "energyweaponLevel",
+                                     "engineeringLevel",
+                                     "extremesportsLevel",
+                                     "firearmLevel",
+                                     "handtohandLevel",
+                                     "heavyweaponLevel",
+                                     "influenceLevel",
+                                     "mechanicsLevel",
+                                     "medicineLevel",
+                                     "meleeLevel",
+                                     "misdirectionLevel",
+                                     "performanceLevel",
+                                     "pilotingLevel",
+                                     "primitivewpnLevel",
+                                     "professionLevel",
+                                     "resilienceLevel",
+                                     "scienceLevel",
+                                     "securityLevel",
+                                     "stealthLevel",
+                                     "survivalLevel",
+                                     "willpowerLevel"];
+
+// Encode current character into a single string
+function saveCharacter(e) {
+	var characterSaveString = "";
+	for ( var i in valuesDefiningACharacter ) {
+		characterSaveString += document.getElementById(valuesDefiningACharacter[i]).value + "|";
+	}
+	document.getElementById("characterSaveString").value = characterSaveString.slice(0, -1);
+}
+
+// Decode the "save string" and populate character sheet
+function loadCharacter(e) {
+	var characterSaveString = document.getElementById("characterSaveString").value;
+	if ( characterSaveString == null || characterSaveString == "" ) {
+		return;
+	}
+	characterSaveString = characterSaveString.split("|");
+	if ( characterSaveString.length != valuesDefiningACharacter.length ) {
+		alert("Invalid string!");
+		return;
+	}
+	for ( var i in valuesDefiningACharacter ) {
+		var currentElement = document.getElementById(valuesDefiningACharacter[i]);
+		currentElement.focus();
+		currentElement.value = characterSaveString[i];
+		currentElement.blur();
+	}
+	window.scrollTo(0,0);
+}
