@@ -95,6 +95,12 @@ document.getElementById("characterVit").addEventListener("focusout", calculateEn
 document.getElementById("characterAgi").addEventListener("focusout", calculateInitiative);
 document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
 
+// Bind function which populates character's weapons
+document.getElementById("weaponName1").addEventListener("focusout", populateWeapons);
+document.getElementById("weaponName2").addEventListener("focusout", populateWeapons);
+document.getElementById("weaponName3").addEventListener("focusout", populateWeapons);
+document.getElementById("weaponName4").addEventListener("focusout", populateWeapons);
+
 // Bind functions for saving/loading a character
 document.getElementById("saveButton").addEventListener("click", exportCharacter);
 document.getElementById("loadButton").addEventListener("click", importCharacter);
@@ -537,6 +543,96 @@ function discardInvalidKeysForSkills(e) {
 	}
 }
 
+// Populate weapons
+function populateWeapons(e) {
+	// Define properties for each known weapon
+	var weapons =  { 'unarmed': ['','3','1d4+0/2 P','NL'],
+	                 'club': ['','3','1d4+0/3 P','NL, +1dmg 2H'],
+	                 'spear': ['','3','1d6+1/5 P','2H'],
+	                 'knife': ['','3','1d4+1/4 P',''],
+	                 'short sword': ['','3','1d6+1/5 P',''],
+	                 'polearm': ['','4','1d6+1/5 P','2H, AP1'],
+	                 'long sword': ['','3','1d6+1/5 P','+1dmg 2H'],
+	                 'mace': ['','4','1d6+0/4 P','+1dmg 2H'],
+	                 'bayonet': ['','4','1d6+1/5 P','2H'],
+	                 'combat knife': ['','3','1d6+1/5 P',''],
+	                 'tactical baton': ['','3','1d4+0/4 P','NL'],
+	                 'stun gun': ['','3','1d6+0/2 E','Stun, NL'],
+	                 'shock glove': ['','4','1d6+2/3 E','Stun, NL'],
+	                 'vibroblade': ['','3','1d6+1/5 P','AP2, +1dmg 2H'],
+	                 'chainsaw bayonet': ['','4','1d6+2/7 P','Bleed, 2H'],
+	                 'forcespike bayonet': ['','3','1d6+2/7 P','AP1, 2H'],
+	                 'diskos': ['','4','1d8+3/9 P','AP3, 2H'],
+	                 'power gauntlet': ['','3','1d8+1/5 P','+1 step grap'],
+	                 'force hammer': ['','4','1d8+2/7 P','MB3, 2H'],
+	                 'nega-glaive': ['','4','1d12+3/9 E','Irradiate, 2H'],
+	                 'star sword': ['','3','1d10+3/9 E','+1dmg 2H'],
+	                 'bolas': ['C','4','1d4+0/3 P',''],
+	                 'javelin': ['M','3','1d6+1/4 P',''],
+	                 'sling': ['L','4','1d4+0/4 P','R1'],
+	                 'bow': ['L','3','1d6+0/3 P','R1'],
+	                 'crossbow': ['L','3','1d6+0/4 P','R3, AP3'],
+	                 'musket, flintlock': ['M','4','1d10+0/4 P','R5'],
+	                 'pistol, flintlock': ['C','4','1d8+0/4 P','R3'],
+	                 'revolver': ['M','3','1d6+1/6 P','M6'],
+	                 'rifle, bolt-action': ['VL','4','1d8+2/6 P','M5'],
+	                 'shotgun': ['M','4','1d8+0/5 P','M5, Brutal'],
+	                 'pistol, light': ['M','3','1d6+1/5 P',''],
+	                 'pistol, heavy': ['M','4','1d8+1/6 P',''],
+	                 'rifle, assault': ['VL','3','1d8+2/8 P','M30, Auto'],
+	                 'rifle, sniper': ['VL','4','1d8+2/8 P','Acc'],
+	                 'smg': ['L','3','1d6+1/5 P','M20, Auto'],
+	                 'flachette pistol': ['C','3','1d6+1/5 P','Brutal'],
+	                 'flachette gun': ['M','3','1d6+1/5 P','M30,Auto,Brut'],
+	                 'razor pistol': ['L','3','1d10+0/4 P','Bleed, M20'],
+	                 'taser': ['C','3','1d4+0/1 E','R2, NL, Stun'],
+	                 'laser pistol': ['L','3','1d6+0/6 E','Acc'],
+	                 'laser rifle': ['VL','4','1d6+1/8 E','Acc, M20'],
+	                 'sonic bore': ['C','4','1d8+0/5 E','Spread, Stun'],
+	                 'plasma pistol': ['M','3','2d4/2d8 E',''],
+	                 'plasma rifle': ['VL','4','2d6/2d12 E',''],
+	                 'phase pistol': ['M','3','1d6+2/7 E','Acc, Ignite'],
+	                 'phase rifle': ['Ex','3','1d6+4/9 E','Acc, Ignite, M20'],
+	                 'disintegrator': ['L','3','1d10+0/6 E','AP3, Irradiate'],
+	                 'light machinegun': ['VL','4','1d8+2/7 P','ImpAuto, M100'],
+	                 'flamethrower': ['C','4','2d8 (1d8) E','B2(4),Ignite,M5'],
+	                 'grenade, frag': ['','4','2d6 (1d8) P','B4(8)'],
+	                 'grenade, smoke': ['','','','Area 4m'],
+	                 'grenade launcher': ['L','4','by grenade','Ammo Loadout'],
+	                 'grenade, concussion': ['','4','1d8+4(0) E','B3(6)'],
+	                 'rocket, antitank': ['VL','5','1d10+1/6 E','AP3, MB2, R3'],
+	                 'gauss rifle': ['VL','3','1d6+4/8 P','ImpAuto, M100'],
+	                 'grenade, emp': ['','4','2d8 (1d10) E','B4(8), EMP'],
+	                 'grenade, thermal': ['','4','1d8+6(2) E','B3(6), Ignite'],
+	                 'laser minigun': ['Ex','3','1d6+3/7 E','Acc,ImpA,M50'],
+	                 'rail rifle': ['Ex','5','1d8+4/8 P','AP3, M20'],
+	                 'z-missle launcher': ['VL','3','by grenade','Ammo Loadout'],
+	                 'neutron cannon': ['L','5','2d6/2d10 E','AP6, M20'],
+	                 'grenade, swarm': ['','4','2d8 (1d10) P','B5(10)'],
+	                 'plasma hurler': ['VL','4','1d8+7(3) E','B3(6), R1'],
+	                 'razor gun': ['Ex','4','1d10+2/6 P','Bleed,ImpA,M50'],
+	                 'matter beam': ['VL','4','2d6/2d12 E','AP6, M20'],
+	                 'gravity render': ['Ex','3','1d6+5/10 E','ImpAuto, M50'],
+	                 'grenade, null': ['','4','2d10 (2d10) E','B5(10), Irradiate'],
+	                 'shock rifle': ['Ex','4','1d10+3/7 E','Acc, MB2']
+	};
+	// For each row, check if there's a weapon selected and populate adjacent fields
+	for ( var i = 0; i < 4; i++ ) {
+		var selectedWeapon = document.getElementById("weaponName" + (i + 1)).value.toLowerCase();
+		if ( selectedWeapon != "" && weapons[selectedWeapon] != null ) {
+			document.getElementById("weaponRange" + (i + 1)).value = weapons[selectedWeapon][0];
+			document.getElementById("weaponSpeed" + (i + 1)).value = weapons[selectedWeapon][1];
+			document.getElementById("weaponDamage" + (i + 1)).value = weapons[selectedWeapon][2];
+			document.getElementById("weaponSpecial" + (i + 1)).value = weapons[selectedWeapon][3];
+		} else {
+			document.getElementById("weaponRange" + (i + 1)).value = "";
+			document.getElementById("weaponSpeed" + (i + 1)).value = "";
+			document.getElementById("weaponDamage" + (i + 1)).value = "";
+			document.getElementById("weaponSpecial" + (i + 1)).value = "";
+		}
+	}
+}
+
 // Recalculate character skills
 function recalculateCharacterSkills(e) {
 	// Get value of stats input fields
@@ -645,6 +741,7 @@ function recalculateCharacterSkills(e) {
 	}
 };
 
+// The following array and functions are used for handling the character import/export string
 // List of all inputable IDs 
 var valuesDefiningACharacter = [     "characterName",
                                      "characterArchetype",
@@ -656,6 +753,10 @@ var valuesDefiningACharacter = [     "characterName",
                                      "characterFoc",
                                      "characterVit",
                                      "characterPer",
+                                     "weaponName1",
+                                     "weaponName2",
+                                     "weaponName3",
+                                     "weaponName4",
                                      "selectedSpecies",
                                      "primaryArmor",
                                      "additionalArmor",
