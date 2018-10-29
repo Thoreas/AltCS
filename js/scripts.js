@@ -706,7 +706,11 @@ function exportCharacter(e) {
 // Decode the "save string" and populate character sheet
 function importCharacter(e) {
 	var characterSaveString = document.getElementById("characterSaveString").value;
-	if ( characterSaveString == null || characterSaveString == "" || characterSaveString.length % 4 != 0 ) {
+	if ( characterSaveString == null || characterSaveString == "" ) {
+		return;
+	}
+	if ( characterSaveString.length % 4 != 0 ) {
+		alert("Invalid string!");
 		return;
 	}
 	characterSaveString = decodeURIComponent(atob(characterSaveString)).split("|");

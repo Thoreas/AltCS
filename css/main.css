@@ -92,7 +92,7 @@ div.title-subtext {
   text-transform: uppercase;
 }
 
-input.fullWidth, input.small, input.smaller {
+input.full-width, input.small, input.smaller {
   border: none;
   border-bottom: 1px solid black;
   color: black;
