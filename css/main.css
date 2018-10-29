@@ -85,6 +85,13 @@ div.border {
   padding: 5px 10px 5px 10px;
 }
 
+div.title-subtext {
+  font-size: x-small;
+  margin: -15px auto 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 input.fullWidth, input.small, input.smaller {
   border: none;
   border-bottom: 1px solid black;
@@ -105,11 +112,9 @@ input.smaller {
   width: 30px;
 }
 
-div.title-subtext {
-  font-size: x-small;
-  margin: -15px auto 0 auto;
-  text-align: center;
-  text-transform: uppercase;
+textarea {
+  resize: none;
+  width: 100%;
 }
 
 @media print {

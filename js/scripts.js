@@ -96,8 +96,8 @@ document.getElementById("characterAgi").addEventListener("focusout", calculateIn
 document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
 
 // Bind functions for saving/loading a character
-document.getElementById("saveButton").addEventListener("click", saveCharacter);
-document.getElementById("loadButton").addEventListener("click", loadCharacter);
+document.getElementById("saveButton").addEventListener("click", exportCharacter);
+document.getElementById("loadButton").addEventListener("click", importCharacter);
 
 // Transfor an integer value for bonus/penalty steps into string equivalent
 function stepValueToDie(stepValue) {
@@ -695,21 +695,21 @@ var valuesDefiningACharacter = [     "characterName",
                                      "willpowerLevel"];
 
 // Encode current character into a single string
-function saveCharacter(e) {
+function exportCharacter(e) {
 	var characterSaveString = "";
 	for ( var i in valuesDefiningACharacter ) {
 		characterSaveString += document.getElementById(valuesDefiningACharacter[i]).value + "|";
 	}
-	document.getElementById("characterSaveString").value = characterSaveString.slice(0, -1);
+	document.getElementById("characterSaveString").value = btoa(encodeURIComponent(characterSaveString.slice(0, -1)));
 }
 
 // Decode the "save string" and populate character sheet
-function loadCharacter(e) {
+function importCharacter(e) {
 	var characterSaveString = document.getElementById("characterSaveString").value;
-	if ( characterSaveString == null || characterSaveString == "" ) {
+	if ( characterSaveString == null || characterSaveString == "" || characterSaveString.length % 4 != 0 ) {
 		return;
 	}
-	characterSaveString = characterSaveString.split("|");
+	characterSaveString = decodeURIComponent(atob(characterSaveString)).split("|");
 	if ( characterSaveString.length != valuesDefiningACharacter.length ) {
 		alert("Invalid string!");
 		return;
