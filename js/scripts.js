@@ -140,6 +140,7 @@ function stepValueToDie(stepValue) {
 // Adjust required minimum and maximum values for stats depending on species selected
 function adjustMinMaxForSpecies(e) {
 	var selectedSpecies = document.getElementById("selectedSpecies").value.toLowerCase();
+	var hasDefaulted = false;
 	switch(selectedSpecies) {
 		case 'human (elaphromorph)':
 			minStatValue["characterAgi"] = 4;
@@ -202,7 +203,17 @@ function adjustMinMaxForSpecies(e) {
 			document.getElementById("selectedSpeciesNotes1").value = "";
 			document.getElementById("selectedSpeciesNotes2").value = "";
 			document.getElementById("selectedSpeciesNotes3").value = "";
+			hasDefaulted = true;
 			break;
+	}
+	if ( hasDefaulted ) {
+		document.getElementById("selectedSpeciesNotes1").removeAttribute("readonly");
+		document.getElementById("selectedSpeciesNotes2").removeAttribute("readonly");
+		document.getElementById("selectedSpeciesNotes3").removeAttribute("readonly");
+	} else {
+		document.getElementById("selectedSpeciesNotes1").setAttribute("readonly", "true");
+		document.getElementById("selectedSpeciesNotes2").setAttribute("readonly", "true");
+		document.getElementById("selectedSpeciesNotes3").setAttribute("readonly", "true");
 	}
 	recalculateCharacterSkills(e);
 }
@@ -226,7 +237,8 @@ function calculateArmor(e) {
 	var reductionEnergy = 0;
 	var stepsPenalty = 0;
 	// Briith have a natural bonus of "1"
-	if ( document.getElementById("selectedSpecies").value.toLowerCase() == "briith" ) {
+	var selectedSpecies = document.getElementById("selectedSpecies").value.toLowerCase();
+	if ( selectedSpecies == "briith" ) {
 		reductionPhysical++;
 		reductionEnergy++;
 	}
@@ -277,6 +289,7 @@ function calculateArmor(e) {
 	// Get primary armor; adjust values
 	var primaryArmorWeight = 0;
 	var primaryArmor = document.getElementById("primaryArmor").value.toLowerCase();
+	var hasDefaultedPrimary = false;
 	switch(primaryArmor) {
 		case 'hide armor':
 			characterSpeed -= 2;
@@ -437,13 +450,14 @@ function calculateArmor(e) {
 			reductionEnergy += 10;
 			stepsPenalty += 2;
 			break;
-		case 'none':
 		default:
+			hasDefaultedPrimary = true;
 			break;
 	}
 	// Get additional armor; adjust values
 	var additionalArmorWeight = 0;
 	var additionalArmor = document.getElementById("additionalArmor").value.toLowerCase();
+	var hasDefaultedAdditional = false;
 	switch(additionalArmor) {
 		case 'shield':
 			characterSpeed -= 2;
@@ -477,28 +491,50 @@ function calculateArmor(e) {
 			additionalArmorWeight = 0;
 			break;
 		default:
+			hasDefaultedAdditional = true;
 			break;
 	}
 	// Populate speed
 	document.getElementById("characterSpeed").value = ( characterSpeed > 20 ? 20 : characterSpeed );
 	// Populate total
 	if ( reductionPhysical == 0 && reductionEnergy == 0 ) {
+		document.getElementById("reductionPhysical").removeAttribute("readonly");
+		document.getElementById("reductionEnergy").removeAttribute("readonly");
 		document.getElementById("reductionPhysical").value = "";
 		document.getElementById("reductionEnergy").value = "";
-	} else {
+	} else if ( !hasDefaultedPrimary && !hasDefaultedAdditional || ( hasDefaultedPrimary && primaryArmor == "" || hasDefaultedAdditional && additionalArmor == "" ) ) {
+		document.getElementById("reductionPhysical").setAttribute("readonly", "true");
+		document.getElementById("reductionEnergy").setAttribute("readonly", "true");
 		document.getElementById("reductionPhysical").value = reductionPhysical;
 		document.getElementById("reductionEnergy").value = reductionEnergy;
+	} else if ( hasDefaultedPrimary || hasDefaultedAdditional ) {
+		document.getElementById("reductionPhysical").setAttribute("readonly", "true");
+		document.getElementById("reductionEnergy").setAttribute("readonly", "true");
+		document.getElementById("reductionPhysical").value = "    + " + reductionPhysical;
+		document.getElementById("reductionEnergy").value =  "    + " + reductionEnergy;
 	}
 	// Populate weight
-	if ( primaryArmorWeight == 0 ) {
-		document.getElementById("primaryArmorWeight").value = "";
+	if ( !hasDefaultedPrimary ) {
+		if ( primaryArmorWeight == 0 ) {
+			document.getElementById("primaryArmorWeight").removeAttribute("readonly");
+			document.getElementById("primaryArmorWeight").value = "";
+		} else {
+			document.getElementById("primaryArmorWeight").setAttribute("readonly", "true");
+			document.getElementById("primaryArmorWeight").value = primaryArmorWeight;
+		}
 	} else {
-		document.getElementById("primaryArmorWeight").value = primaryArmorWeight;
+		document.getElementById("primaryArmorWeight").removeAttribute("readonly");
 	}
-	if ( additionalArmorWeight == 0 ) {
-		document.getElementById("additionalArmorWeight").value = "";
+	if ( !hasDefaultedAdditional ) {
+		if ( additionalArmorWeight == 0 ) {
+			document.getElementById("additionalArmorWeight").removeAttribute("readonly");
+			document.getElementById("additionalArmorWeight").value = "";
+		} else {
+			document.getElementById("additionalArmorWeight").setAttribute("readonly", "true");
+			document.getElementById("additionalArmorWeight").value = additionalArmorWeight;
+		}
 	} else {
-		document.getElementById("additionalArmorWeight").value = additionalArmorWeight;
+		document.getElementById("additionalArmorWeight").removeAttribute("readonly");
 	}
 	// Populate skill penalty steps
 	var skillsToGetPenalized = ['acrobatics','athletics','dodge','endurance','extremesports','stealth'];
@@ -620,11 +656,19 @@ function populateWeapons(e) {
 	for ( var i = 0; i < 4; i++ ) {
 		var selectedWeapon = document.getElementById("weaponName" + (i + 1)).value.toLowerCase();
 		if ( selectedWeapon != "" && weapons[selectedWeapon] != null ) {
+			document.getElementById("weaponRange" + (i + 1)).setAttribute("readonly", "true");
+			document.getElementById("weaponSpeed" + (i + 1)).setAttribute("readonly", "true");
+			document.getElementById("weaponDamage" + (i + 1)).setAttribute("readonly", "true");
+			document.getElementById("weaponSpecial" + (i + 1)).setAttribute("readonly", "true");
 			document.getElementById("weaponRange" + (i + 1)).value = weapons[selectedWeapon][0];
 			document.getElementById("weaponSpeed" + (i + 1)).value = weapons[selectedWeapon][1];
 			document.getElementById("weaponDamage" + (i + 1)).value = weapons[selectedWeapon][2];
 			document.getElementById("weaponSpecial" + (i + 1)).value = weapons[selectedWeapon][3];
 		} else {
+			document.getElementById("weaponRange" + (i + 1)).removeAttribute("readonly");
+			document.getElementById("weaponSpeed" + (i + 1)).removeAttribute("readonly");
+			document.getElementById("weaponDamage" + (i + 1)).removeAttribute("readonly");
+			document.getElementById("weaponSpecial" + (i + 1)).removeAttribute("readonly");
 			document.getElementById("weaponRange" + (i + 1)).value = "";
 			document.getElementById("weaponSpeed" + (i + 1)).value = "";
 			document.getElementById("weaponDamage" + (i + 1)).value = "";
