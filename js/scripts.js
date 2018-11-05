@@ -669,10 +669,6 @@ function populateWeapons(e) {
 			document.getElementById("weaponSpeed" + (i + 1)).removeAttribute("readonly");
 			document.getElementById("weaponDamage" + (i + 1)).removeAttribute("readonly");
 			document.getElementById("weaponSpecial" + (i + 1)).removeAttribute("readonly");
-			document.getElementById("weaponRange" + (i + 1)).value = "";
-			document.getElementById("weaponSpeed" + (i + 1)).value = "";
-			document.getElementById("weaponDamage" + (i + 1)).value = "";
-			document.getElementById("weaponSpecial" + (i + 1)).value = "";
 		}
 	}
 }
