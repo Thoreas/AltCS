@@ -200,9 +200,6 @@ function adjustMinMaxForSpecies(e) {
 		default:
 			minStatValue["characterStr"] = minStatValue["characterInt"] = minStatValue["characterAgi"] = minStatValue["characterFoc"] = minStatValue["characterVit"] = minStatValue["characterPer"] = 1;
 			maxStatValue["characterStr"] = maxStatValue["characterInt"] = maxStatValue["characterAgi"] = maxStatValue["characterFoc"] = maxStatValue["characterVit"] = maxStatValue["characterPer"] = 10;
-			document.getElementById("selectedSpeciesNotes1").value = "";
-			document.getElementById("selectedSpeciesNotes2").value = "";
-			document.getElementById("selectedSpeciesNotes3").value = "";
 			hasDefaulted = true;
 			break;
 	}
