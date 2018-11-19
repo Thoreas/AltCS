@@ -808,7 +808,7 @@ function talents(e, rebuildMenu = false) {
 
 	// Create hierarchical talent structure
 	var talentConstellations = {
-		"Alertness": { "minimumLevel": "1" },
+		"Alertness": { "minimumLevel": "1", "note": "This is a sample text." },
 		"Closer": { "minimumLevel": "1" },
 		"Commander": { "minimumLevel": "1" },
 		"Commando": { "minimumLevel": "1" },
@@ -836,7 +836,7 @@ function talents(e, rebuildMenu = false) {
 	var talents = {
 		"Hit the Dirt": { "constellation": "Alertness" },
 		"Keen Senses": { "constellation": "Alertness" },
-		"Prepared Action": { "constellation": "Alertness" },
+		"Prepared Action": { "constellation": "Alertness", "note": "This is another sample text. This sample is longer than the previous one." },
 		"Snapshot": { "constellation": "Alertness", "parent": "Prepared Action" },
 		"Reactive Shout": { "constellation": "Alertness" },
 		"Character Study": { "constellation": "Closer" },
@@ -999,9 +999,13 @@ function talents(e, rebuildMenu = false) {
 					if ( talents[talent]["constellation"] == constellation ) {
 						if ( talents[talent]["minimumLevel"] == null || characterLevel >= talents[talent]["minimumLevel"] ) {
 							if ( talents[talent]["parent"] != null ) {
-								menuHTML += "<option value=\" - &gt; " + talent + "\">";
+								if ( talents[talents[talent]["parent"]]["parent"] != null ) {
+									menuHTML += "<option value=\"&nbsp;&nbsp;&nbsp;&nbsp;↳ " + talent + "\">";
+								} else {
+									menuHTML += "<option value=\"&nbsp;&nbsp;↳ " + talent + "\">";
+								}
 							} else {
-								menuHTML += "<option value=\" &gt; " + talent + "\">";
+								menuHTML += "<option value=\"↳ " + talent + "\">";
 							}
 						}
 					}
@@ -1014,7 +1018,7 @@ function talents(e, rebuildMenu = false) {
 	// Populate array with values from the frontend
 	var selectedTalents = [];
 	for ( var i = 0; i < 12; i++ ) {
-		selectedTalents.push(document.getElementById("talent" + i).value.replace(" > ","").replace(" -","").replace(" -",""));
+		selectedTalents.push(document.getElementById("talent" + i).value.trim().substring(document.getElementById("talent" + i).value.trim().indexOf(" ") + 1));
 	}
 
 	// Generate propper tree from selected talents
@@ -1040,19 +1044,19 @@ function talents(e, rebuildMenu = false) {
 		if ( talents[sortedTalents[i]] != null ) {
 			if ( talents[sortedTalents[i]]["parent"] == null ) {
 				expandedTalents.push(talents[sortedTalents[i]]["constellation"]);
-				expandedTalents.push(" > " + sortedTalents[i]);
+				expandedTalents.push("↳ " + sortedTalents[i]);
 				continue;
 			} else {
 				if ( talents[talents[sortedTalents[i]]["parent"]]["parent"] == null ) {
 					expandedTalents.push(talents[talents[sortedTalents[i]]["parent"]]["constellation"]);
-					expandedTalents.push(" > " + talents[sortedTalents[i]]["parent"]);
-					expandedTalents.push(" - > " + sortedTalents[i]);
+					expandedTalents.push("↳ " + talents[sortedTalents[i]]["parent"]);
+					expandedTalents.push(" ↳ " + sortedTalents[i]);
 					continue;
 				} else {
 					expandedTalents.push(talents[talents[talents[sortedTalents[i]]["parent"]]["parent"]]["constellation"]);
-					expandedTalents.push(" > " + talents[talents[sortedTalents[i]]["parent"]]["parent"]);
-					expandedTalents.push(" - > " + talents[sortedTalents[i]]["parent"]);
-					expandedTalents.push(" - - > " + sortedTalents[i]);
+					expandedTalents.push("↳ " + talents[talents[sortedTalents[i]]["parent"]]["parent"]);
+					expandedTalents.push(" ↳ " + talents[sortedTalents[i]]["parent"]);
+					expandedTalents.push("  ↳ " + sortedTalents[i]);
 				}
 			}
 		}
@@ -1064,20 +1068,44 @@ function talents(e, rebuildMenu = false) {
 			finalTalents.push(expandedTalents[i]);
 		}
 	}
-	// Step 4: put final array back into the HTML
+	// Step 4: put final array back into the HTML and fill Talent Notes
+	document.getElementById("talentNotes").innerHTML = "";
 	for ( var i = 0; i < 12; i++ ) {
 		if ( finalTalents[i] != null ) {
+			// Put element into Talents
 			document.getElementById("talent" + i).value = finalTalents[i];
+			// Put note into Talent Notes
+			var talentNote = "";
+			var currentTalentStripped = finalTalents[i].trim().substring(document.getElementById("talent" + i).value.trim().indexOf(" ") + 1);
+			if ( talentConstellations[currentTalentStripped] != null ) {
+				talentNote = talentConstellations[currentTalentStripped]["note"];
+			} else if ( talents[currentTalentStripped] != null ) {
+				talentNote = talents[currentTalentStripped]["note"];
+			}
+			appendToTalentNotes("<strong>" + currentTalentStripped + ":</strong> " + talentNote);
 		} else {
 			document.getElementById("talent" + i).value = "";
 		}
 	}
-	// Hide the Talent Notes Block if no talents are selected
+
+	// Hide the Talent Notes Block if no talents have been selected
 	if ( finalTalents.filter(function(el) { return el != ""; }).length == 0 ) {
 		document.getElementById("talentNotesBlock").style.display = "none";
 	} else {
 		document.getElementById("talentNotesBlock").style.display = "";
 	}
+}
+
+// Append a <li> element to the Talent Notes <ul>
+function appendToTalentNotes(lineToAppend) {
+	// Validation
+	if ( lineToAppend == null || lineToAppend.length == 0 ) {
+		return;
+	}
+	// Create <li> element and append
+	var li = document.createElement("li");
+	li.innerHTML = lineToAppend;
+	document.getElementById("talentNotes").appendChild(li);
 }
 
 // Make changes based on character level
@@ -1103,7 +1131,7 @@ function characterLevel(e) {
 	// Set number of available talents
 	for ( var i = 0; i < 12; i++ ) {
 		if ( i < ( isNaN(characterLevel) ? 3 : characterLevel ) + 2 ) {
-			document.getElementById("talentRow" + i).style.display = "";
+			document.getElementById("talentRow" + i).style.display = "initial";
 		} else {
 			document.getElementById("talentRow" + i).style.display = "none";
 		}
