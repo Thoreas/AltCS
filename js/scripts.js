@@ -756,19 +756,18 @@ function recalculateCharacterSkills(e) {
 	// For two-stat skills: skillLow = 20 - ( max(relevantStat1,relevantStat2,...) + skillLevel)
 	for (var characterSkill in characterSkills) {
 		// Enforce minimum and maximum values for skill rank
+		var characterLevel = parseInt(document.getElementById("characterLevel").value);
 		var skillLevel = parseInt(document.getElementById(characterSkill + "Level").value);
 		skillLevel = ( skillLevel > 0 ? skillLevel : 0 );
 		if ( skillLevel < 1 ) {
 			skillLevel = 0;
 			document.getElementById(characterSkill + "Level").value = "";
-		} else if ( skillLevel > 5 ) {
-			if ( parseInt(document.getElementById("characterLevel").value) == 1 ) {
-				skillLevel = 5;
-				document.getElementById(characterSkill + "Level").value = "5";
-			} else if ( skillLevel > 10 ) {
-				skillLevel = 10;
-				document.getElementById(characterSkill + "Level").value = "10";
-			}
+		} else if ( skillLevel > characterLevel + 5 ) {
+			skillLevel = characterLevel + 5;
+			document.getElementById(characterSkill + "Level").value = skillLevel;
+		} else if ( skillLevel > 10 ) {
+			skillLevel = 10;
+			document.getElementById(characterSkill + "Level").value = skillLevel;
 		}
 		// Select the greatest stat value out of all relevant stats for a given skill
 		var relevantStatValue = 0;
@@ -796,7 +795,6 @@ function clearTalents(e) {
 	for ( var i = 0; i < 5; i++ ) {
 		document.getElementById("talent" + (i + 1) ).value = "";
 	}
-	talents(e, rebuildMenu = true);
 }
 
 // Make modifications to the charecater sheet based on talents selected
@@ -1076,6 +1074,12 @@ function talents(e, rebuildMenu = false) {
 
 // Make changes based on character level
 function characterLevel(e) {
+	var characterLevel = parseInt(document.getElementById("characterLevel").value);
+	if ( characterLevel < 1 ) {
+		document.getElementById("characterLevel").value = 1;
+	} else if ( characterLevel > 10 ) {
+		document.getElementById("characterLevel").value = 10;
+	}
 	talents(e, rebuildMenu = true);
 }
 
