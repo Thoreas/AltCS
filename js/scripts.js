@@ -502,7 +502,9 @@ function calculateArmor(e) {
 			break;
 	}
 	// Populate speed
-	document.getElementById("characterSpeed").value = ( characterSpeed > 20 ? 20 : characterSpeed );
+	if ( document.getElementById("selectedSpecies").value != "" ) {
+		document.getElementById("characterSpeed").value = ( characterSpeed > 20 ? 20 : characterSpeed );
+	}
 	// Populate total
 	if ( reductionPhysical == 0 && reductionEnergy == 0 ) {
 		document.getElementById("reductionPhysical").removeAttribute("readonly");
