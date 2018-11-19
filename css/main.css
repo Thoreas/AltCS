@@ -23,6 +23,11 @@ body {
 }
 
 .small-text {
+  font-size: small !important;
+  line-height: 14px;
+}
+
+.x-small-text {
   font-size: x-small !important;
   line-height: 14px;
 }
@@ -127,6 +132,11 @@ input.smaller {
 
 span#talentNumSpan {
   display: none;
+}
+
+ul#talentNotes {
+  margin-top: 0px;
+  padding-left: 12px;
 }
 
 textarea {
