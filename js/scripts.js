@@ -102,11 +102,9 @@ document.getElementById("weaponName3").addEventListener("focusout", populateWeap
 document.getElementById("weaponName4").addEventListener("focusout", populateWeapons);
 
 // Bind function which makes talent related changes to the character sheet
-document.getElementById("talent1").addEventListener("focusout", talents);
-document.getElementById("talent2").addEventListener("focusout", talents);
-document.getElementById("talent3").addEventListener("focusout", talents);
-document.getElementById("talent4").addEventListener("focusout", talents);
-document.getElementById("talent5").addEventListener("focusout", talents);
+for ( var i = 0; i < 12; i++ ) {
+	document.getElementById("talent" + i).addEventListener("focusout", talents);
+}
 document.getElementById("clearTalentsButton").addEventListener("click", clearTalents);
 talents(null, rebuildMenu = true);
 
@@ -792,9 +790,10 @@ function recalculateCharacterSkills(e) {
 
 // Function which clears all selected talents
 function clearTalents(e) {
-	for ( var i = 0; i < 5; i++ ) {
-		document.getElementById("talent" + (i + 1) ).value = "";
+	for ( var i = 0; i < 12; i++ ) {
+		document.getElementById("talent" + i).value = "";
 	}
+	talents(e);
 }
 
 // Make modifications to the charecater sheet based on talents selected
@@ -802,7 +801,7 @@ function talents(e, rebuildMenu = false) {
 	// Get recquired character info
 	var characterLevel = parseInt(document.getElementById("characterLevel").value);
 	if ( isNaN(characterLevel) ) {
-		characterLevel = 1;
+		characterLevel = 0;
 	}
 	var selectedSpecies = document.getElementById("selectedSpecies").value;
 
@@ -1011,8 +1010,8 @@ function talents(e, rebuildMenu = false) {
 
 	// Populate array with values from the frontend
 	var selectedTalents = [];
-	for ( var i = 0; i < 5; i++ ) {
-		selectedTalents.push(document.getElementById("talent" + (i + 1) ).value.replace(" > ","").replace(" -",""));
+	for ( var i = 0; i < 12; i++ ) {
+		selectedTalents.push(document.getElementById("talent" + i).value.replace(" > ","").replace(" -","").replace(" -",""));
 	}
 
 	// Generate propper tree from selected talents
@@ -1063,23 +1062,43 @@ function talents(e, rebuildMenu = false) {
 		}
 	}
 	// Step 4: put final array back into the HTML
-	for ( var i = 0; i < 5; i++ ) {
+	for ( var i = 0; i < 12; i++ ) {
 		if ( finalTalents[i] != null ) {
-			document.getElementById("talent" + (i + 1) ).value = finalTalents[i];
+			document.getElementById("talent" + i).value = finalTalents[i];
 		} else {
-			document.getElementById("talent" + (i + 1) ).value = "";
+			document.getElementById("talent" + i).value = "";
 		}
 	}
 }
 
 // Make changes based on character level
 function characterLevel(e) {
+	// Validate input
 	var characterLevel = parseInt(document.getElementById("characterLevel").value);
 	if ( characterLevel < 1 ) {
-		document.getElementById("characterLevel").value = 1;
+		document.getElementById("characterLevel").value = characterLevel = 1;
 	} else if ( characterLevel > 10 ) {
-		document.getElementById("characterLevel").value = 10;
+		document.getElementById("characterLevel").value = characterLevel = 10;
 	}
+	if ( isNaN(characterLevel) ) {
+		document.getElementById("talentNumSpan").style.display = "none";
+		document.getElementById("talentNum").innerHTML = "";
+	} else {
+		document.getElementById("talentNumSpan").style.display = "initial";
+		document.getElementById("talentNum").innerHTML = characterLevel + 2;
+	}
+
+	// Set number of available talents
+	for ( var i = 0; i < 12; i++ ) {
+		if ( i < ( isNaN(characterLevel) ? 3 : characterLevel ) + 2 ) {
+			document.getElementById("talentRow" + i).style.display = "initial";
+		} else {
+			document.getElementById("talentRow" + i).style.display = "none";
+		}
+	}
+
+	// Clear current talents and rebuild dropdown menu
+	clearTalents(e);
 	talents(e, rebuildMenu = true);
 }
 
@@ -1170,11 +1189,18 @@ var valuesDefiningACharacter = [     "characterName",
                                      "stealthLevel",
                                      "survivalLevel",
                                      "willpowerLevel",
+                                     "talent0",
                                      "talent1",
                                      "talent2",
                                      "talent3",
                                      "talent4",
-                                     "talent5"];
+                                     "talent5",
+                                     "talent6",
+                                     "talent7",
+                                     "talent8",
+                                     "talent9",
+                                     "talent10",
+                                     "talent11"];
 
 // Encode current character into a single string
 function exportCharacter(e) {

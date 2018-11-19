@@ -61,6 +61,14 @@ body {
 .col-11 { width: 91.66%; }
 .col-12 { width: 100%; }
 
+#talentRow5 { display: none; }
+#talentRow6 { display: none; }
+#talentRow7 { display: none; }
+#talentRow8 { display: none; }
+#talentRow9 { display: none; }
+#talentRow10 { display: none; }
+#talentRow11 { display: none; }
+
 h1 {
   font-size: 3em;
   font-variant: small-caps;
@@ -115,6 +123,10 @@ input.small {
 
 input.smaller {
   width: 30px;
+}
+
+span#talentNumSpan {
+  display: none;
 }
 
 textarea {
