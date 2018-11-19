@@ -96,10 +96,9 @@ document.getElementById("characterAgi").addEventListener("focusout", calculateIn
 document.getElementById("characterFoc").addEventListener("focusout", calculateInitiative);
 
 // Bind function which populates character's weapons
-document.getElementById("weaponName1").addEventListener("focusout", populateWeapons);
-document.getElementById("weaponName2").addEventListener("focusout", populateWeapons);
-document.getElementById("weaponName3").addEventListener("focusout", populateWeapons);
-document.getElementById("weaponName4").addEventListener("focusout", populateWeapons);
+for ( var i = 0; i < 6; i++ ) {
+	document.getElementById("weaponName" + i).addEventListener("focusout", populateWeapons);
+}
 
 // Bind function which makes talent related changes to the character sheet
 for ( var i = 0; i < 12; i++ ) {
@@ -661,22 +660,22 @@ function populateWeapons(e) {
 	                 'shock rifle': ['Ex','4','1d10+3/7 E','Acc, MB2']
 	};
 	// For each row, check if there's a weapon selected and populate adjacent fields
-	for ( var i = 0; i < 4; i++ ) {
-		var selectedWeapon = document.getElementById("weaponName" + (i + 1)).value.toLowerCase();
+	for ( var i = 0; i < 6; i++ ) {
+		var selectedWeapon = document.getElementById("weaponName" + i).value.toLowerCase();
 		if ( selectedWeapon != "" && weapons[selectedWeapon] != null ) {
-			document.getElementById("weaponRange" + (i + 1)).setAttribute("readonly", "true");
-			document.getElementById("weaponSpeed" + (i + 1)).setAttribute("readonly", "true");
-			document.getElementById("weaponDamage" + (i + 1)).setAttribute("readonly", "true");
-			document.getElementById("weaponSpecial" + (i + 1)).setAttribute("readonly", "true");
-			document.getElementById("weaponRange" + (i + 1)).value = weapons[selectedWeapon][0];
-			document.getElementById("weaponSpeed" + (i + 1)).value = weapons[selectedWeapon][1];
-			document.getElementById("weaponDamage" + (i + 1)).value = weapons[selectedWeapon][2];
-			document.getElementById("weaponSpecial" + (i + 1)).value = weapons[selectedWeapon][3];
+			document.getElementById("weaponRange" + i).setAttribute("readonly", "true");
+			document.getElementById("weaponSpeed" + i).setAttribute("readonly", "true");
+			document.getElementById("weaponDamage" + i).setAttribute("readonly", "true");
+			document.getElementById("weaponSpecial" + i).setAttribute("readonly", "true");
+			document.getElementById("weaponRange" + i).value = weapons[selectedWeapon][0];
+			document.getElementById("weaponSpeed" + i).value = weapons[selectedWeapon][1];
+			document.getElementById("weaponDamage" + i).value = weapons[selectedWeapon][2];
+			document.getElementById("weaponSpecial" + i).value = weapons[selectedWeapon][3];
 		} else {
-			document.getElementById("weaponRange" + (i + 1)).removeAttribute("readonly");
-			document.getElementById("weaponSpeed" + (i + 1)).removeAttribute("readonly");
-			document.getElementById("weaponDamage" + (i + 1)).removeAttribute("readonly");
-			document.getElementById("weaponSpecial" + (i + 1)).removeAttribute("readonly");
+			document.getElementById("weaponRange" + i).removeAttribute("readonly");
+			document.getElementById("weaponSpeed" + i).removeAttribute("readonly");
+			document.getElementById("weaponDamage" + i).removeAttribute("readonly");
+			document.getElementById("weaponSpecial" + i).removeAttribute("readonly");
 		}
 	}
 }
@@ -1071,6 +1070,12 @@ function talents(e, rebuildMenu = false) {
 			document.getElementById("talent" + i).value = "";
 		}
 	}
+	// Hide the Talent Notes Block if no talents are selected
+	if ( finalTalents.filter(function(el) { return el != ""; }).length == 0 ) {
+		document.getElementById("talentNotesBlock").style.display = "none";
+	} else {
+		document.getElementById("talentNotesBlock").style.display = "";
+	}
 }
 
 // Make changes based on character level
@@ -1096,7 +1101,7 @@ function characterLevel(e) {
 	// Set number of available talents
 	for ( var i = 0; i < 12; i++ ) {
 		if ( i < ( isNaN(characterLevel) ? 3 : characterLevel ) + 2 ) {
-			document.getElementById("talentRow" + i).style.display = "initial";
+			document.getElementById("talentRow" + i).style.display = "";
 		} else {
 			document.getElementById("talentRow" + i).style.display = "none";
 		}
@@ -1122,6 +1127,11 @@ var valuesDefiningACharacter = [     "characterName",
                                      "characterFoc",
                                      "characterVit",
                                      "characterPer",
+                                     "weaponRange0",
+                                     "weaponSpeed0",
+                                     "weaponDamage0",
+                                     "weaponSpecial0",
+                                     "weaponName0",
                                      "weaponRange1",
                                      "weaponSpeed1",
                                      "weaponDamage1",
@@ -1142,6 +1152,11 @@ var valuesDefiningACharacter = [     "characterName",
                                      "weaponDamage4",
                                      "weaponSpecial4",
                                      "weaponName4",
+                                     "weaponRange5",
+                                     "weaponSpeed5",
+                                     "weaponDamage5",
+                                     "weaponSpecial5",
+                                     "weaponName5",
                                      "selectedSpeciesNotes1",
                                      "selectedSpeciesNotes2",
                                      "selectedSpeciesNotes3",
