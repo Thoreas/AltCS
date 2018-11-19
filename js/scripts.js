@@ -101,6 +101,16 @@ document.getElementById("weaponName2").addEventListener("focusout", populateWeap
 document.getElementById("weaponName3").addEventListener("focusout", populateWeapons);
 document.getElementById("weaponName4").addEventListener("focusout", populateWeapons);
 
+// Bind function which makes talent related changes to the character sheet
+document.getElementById("talent1").addEventListener("focusout", talents);
+document.getElementById("talent2").addEventListener("focusout", talents);
+document.getElementById("talent3").addEventListener("focusout", talents);
+document.getElementById("talent4").addEventListener("focusout", talents);
+document.getElementById("talent5").addEventListener("focusout", talents);
+
+// Bind function which makes changes based on character's level
+document.getElementById("characterLevel").addEventListener("focusout", characterLevel);
+
 // Bind functions for saving/loading a character
 document.getElementById("saveButton").addEventListener("click", exportCharacter);
 document.getElementById("loadButton").addEventListener("click", importCharacter);
@@ -213,6 +223,7 @@ function adjustMinMaxForSpecies(e) {
 		document.getElementById("selectedSpeciesNotes3").setAttribute("readonly", "true");
 	}
 	recalculateCharacterSkills(e);
+	talents(e, rebuildMenu = true);
 }
 
 // Adjust available wound points
@@ -778,6 +789,283 @@ function recalculateCharacterSkills(e) {
 	}
 };
 
+// Make modifications to the charecater sheet based on talents selected
+function talents(e, rebuildMenu = false) {
+	// Get recquired character info
+	var characterLevel = parseInt(document.getElementById("characterLevel").value);
+	if ( isNaN(characterLevel) ) {
+		characterLevel = 0;
+	}
+	var selectedSpecies = document.getElementById("selectedSpecies").value;
+
+	// Create hierarchical talent structure
+	var talentConstellations = {
+		"Alertness": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Closer": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Commander": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Commando": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Dirty Fighting": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Drone Expert": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Elusive": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Gearhead": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Gunner": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Gunslinger": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Inventor": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Martial Arts, Grappling": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Martial Arts, Striking": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Medic": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Melee Expert": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Rugged": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Sniper": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Spy": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Trooper": { "minimumLevel": "1", "allowedSpecies": "any" },
+		"Artificial Systems": { "minimumLevel": "1", "allowedSpecies": "Android" },
+		"Powerful Build": { "minimumLevel": "1", "allowedSpecies": "Briith" },
+		"Rapport": { "minimumLevel": "1", "allowedSpecies": "Nesh" },
+		"Limb Articulation": { "minimumLevel": "1", "allowedSpecies": "Xayon" },
+		"Self-Improvement": { "minimumLevel": "2", "allowedSpecies": "any" }
+	};
+	var talents = {
+		"Hit the Dirt": { "constellation": "Alertness", "parent": "" },
+		"Keen Senses": { "constellation": "Alertness", "parent": "" },
+		"Prepared Action": { "constellation": "Alertness", "parent": "" },
+		"Snapshot": { "constellation": "Alertness", "parent": "Prepared Action" },
+		"Reactive Shout": { "constellation": "Alertness", "parent": "" },
+		"Character Study": { "constellation": "Closer", "parent": "" },
+		"Seductive": { "constellation": "Closer", "parent": "Character Study" },
+		"Chameleon": { "constellation": "Closer", "parent": "" },
+		"Cultural Sponge": { "constellation": "Closer", "parent": "Chameleon" },
+		"Combat Leader": { "constellation": "Commander", "parent": "" },
+		"Skills Coach": { "constellation": "Commander", "parent": "Combat Leader" },
+		"Inspiration to All": { "constellation": "Commander", "parent": "Skills Coach" },
+		"Flexible Tactics": { "constellation": "Commander", "parent": "" },
+		"Rapid Reassessment": { "constellation": "Commander", "parent": "Flexible Tactics" },
+		"Taunt": { "constellation": "Commander", "parent": "" },
+		"Group Taunt": { "constellation": "Commander", "parent": "Taunt" },
+		"Crucial Taunt": { "constellation": "Commander", "parent": "Group Taunt" },
+		"Dash": { "constellation": "Commando", "parent": "" },
+		"Serpentine": { "constellation": "Commando", "parent": "Dash" },
+		"Grenadier": { "constellation": "Commando", "parent": "" },
+		"Overwatch": { "constellation": "Commando", "parent": "" },
+		"Skirmisher": { "constellation": "Commando", "parent": "" },
+		"Silent Death": { "constellation": "Commando", "parent": "" },
+		"Trained Spotter": { "constellation": "Commando", "parent": "" },
+		"Bum Rush": { "constellation": "Dirty Fighting", "parent": "" },
+		"Distracting Blow": { "constellation": "Dirty Fighting", "parent": "" },
+		"Blinding Blow": { "constellation": "Dirty Fighting", "parent": "Distracting Blow" },
+		"Make 'Em Hurt": { "constellation": "Dirty Fighting", "parent": "" },
+		"Make 'Em Bleed": { "constellation": "Dirty Fighting", "parent": "Make 'Em Hurt" },
+		"Overclocking": { "constellation": "Drone Expert", "parent": "" },
+		"Rapid Scripting": { "constellation": "Drone Expert", "parent": "" },
+		"Conditional Logic": { "constellation": "Drone Expert", "parent": "Rapid Scripting" },
+		"Combat Crouch": { "constellation": "Elusive", "parent": "" },
+		"Evasive Footwork": { "constellation": "Elusive", "parent": "" },
+		"Instinctive Evasion": { "constellation": "Elusive", "parent": "Evasive Footwork" },
+		"Lucky Miss": { "constellation": "Elusive", "parent": "" },
+		"Built These Myself": { "constellation": "Gearhead", "parent": "" },
+		"One of a Kind": { "constellation": "Gearhead", "parent": "Built These Myself" },
+		"Fast Work": { "constellation": "Gearhead", "parent": "" },
+		"Hit It Again": { "constellation": "Gearhead", "parent": "Fast Work" },
+		"Saboteur": { "constellation": "Gearhead", "parent": "" },
+		"Improvised Trap": { "constellation": "Gearhead", "parent": "Saboteur" },
+		"Street Mod": { "constellation": "Gearhead", "parent": "" },
+		"Cover Destruction": { "constellation": "Gunner", "parent": "" },
+		"Dakka Dakka": { "constellation": "Gunner", "parent": "" },
+		"Forward Observer": { "constellation": "Gunner", "parent": "" },
+		"Shockwave": { "constellation": "Gunner", "parent": "Forward Observer" },
+		"Blast Shaping": { "constellation": "Gunner", "parent": "Shockwave" },
+		"Suppresive Fire": { "constellation": "Gunner", "parent": "" },
+		"Unleash Hell": { "constellation": "Gunner", "parent": "Suppresive Fire" },
+		"Strap It Down": { "constellation": "Gunner", "parent": "" },
+		"Disarming Shot": { "constellation": "Gunslinger", "parent": "" },
+		"Double Tap": { "constellation": "Gunslinger", "parent": "" },
+		"Dramatic Reload": { "constellation": "Gunslinger", "parent": "" },
+		"Free Reload": { "constellation": "Gunslinger", "parent": "Dramatic Reload" },
+		"Dual Pistols": { "constellation": "Gunslinger", "parent": "" },
+		"Dual Targeting": { "constellation": "Gunslinger", "parent": "Dual Pistols" },
+		"Dual Deathdealer": { "constellation": "Gunslinger", "parent": "Dual Targeting" },
+		"Gun Fu": { "constellation": "Gunslinger", "parent": "" },
+		"Steady Hand": { "constellation": "Gunslinger", "parent": "" },
+		"Distance Shot": { "constellation": "Gunslinger", "parent": "Steady Hand" },
+		"Deadeye Shot": { "constellation": "Gunslinger", "parent": "Steady Hand" },
+		"The Best Teacher": { "constellation": "Inventor", "parent": "" },
+		"Not That One!": { "constellation": "Inventor", "parent": "The Best Teacher" },
+		"Miraculous Invention": { "constellation": "Inventor", "parent": "" },
+		"Improvisation": { "constellation": "Inventor", "parent": "" },
+		"Resourcefulness": { "constellation": "Inventor", "parent": "" },
+		"Disarming Lock": { "constellation": "Martial Arts, Grappling", "parent": "" },
+		"Submission Lock": { "constellation": "Martial Arts, Grappling", "parent": "Disarming Lock" },
+		"Judo Throw": { "constellation": "Martial Arts, Grappling", "parent": "" },
+		"Defensive Flip": { "constellation": "Martial Arts, Grappling", "parent": "Judo Throw" },
+		"Bodyslam": { "constellation": "Martial Arts, Grappling", "parent": "Defensive Flip" },
+		"Takedown": { "constellation": "Martial Arts, Grappling", "parent": "" },
+		"Ground and Pound": { "constellation": "Martial Arts, Grappling", "parent": "Takedown" },
+		"Tight Clinch": { "constellation": "Martial Arts, Grappling", "parent": "" },
+		"Combo Strike": { "constellation": "Martial Arts, Striking", "parent": "" },
+		"Whirlwind Combo": { "constellation": "Martial Arts, Striking", "parent": "Combo Strike" },
+		"Defensive Stance": { "constellation": "Martial Arts, Striking", "parent": "" },
+		"Roll With the Punch": { "constellation": "Martial Arts, Striking", "parent": "Defensive Stance" },
+		"Hands of Stone": { "constellation": "Martial Arts, Striking", "parent": "" },
+		"Haymaker": { "constellation": "Martial Arts, Striking", "parent": "" },
+		"Knockout Blow": { "constellation": "Martial Arts, Striking", "parent": "Haymaker" },
+		"Don't You Quit on Me": { "constellation": "Medic", "parent": "" },
+		"First Responder": { "constellation": "Medic", "parent": "" },
+		"Emergency Treatment": { "constellation": "Medic", "parent": "First Responder" },
+		"I've Seen Worse": { "constellation": "Medic", "parent": "" },
+		"Physician, Heal Thyself": { "constellation": "Medic", "parent": "" },
+		"Lunge": { "constellation": "Melee Expert", "parent": "" },
+		"Overwhelming Lunge": { "constellation": "Melee Expert", "parent": "Lunge" },
+		"Melee Combo": { "constellation": "Melee Expert", "parent": "" },
+		"Melee Whirlwind": { "constellation": "Melee Expert", "parent": "Melee Combo" },
+		"Parry": { "constellation": "Melee Expert", "parent": "" },
+		"Riposte": { "constellation": "Melee Expert", "parent": "Parry" },
+		"Disarming Riposte": { "constellation": "Melee Expert", "parent": "Riposte" },
+		"Extra-Rugged I": { "constellation": "Rugged", "parent": "" },
+		"Extra-Rugged II": { "constellation": "Rugged", "parent": "Extra-Rugged I" },
+		"Extra-Rugged III": { "constellation": "Rugged", "parent": "Extra-Rugged II" },
+		"Roll With It": { "constellation": "Rugged", "parent": "" },
+		"Take It on the Armor": { "constellation": "Rugged", "parent": "Roll With It" },
+		"Shake It Off": { "constellation": "Rugged", "parent": "" },
+		"Inured the Pain": { "constellation": "Rugged", "parent": "Shake It Off" },
+		"Suck It Up": { "constellation": "Rugged", "parent": "Inured the Pain" },
+		"Controlled Breathing": { "constellation": "Sniper", "parent": "" },
+		"Precise Sniper": { "constellation": "Sniper", "parent": "Controlled Breathing" },
+		"Deadeye Sniper": { "constellation": "Sniper", "parent": "Precise Sniper" },
+		"Extreme Range": { "constellation": "Sniper", "parent": "" },
+		"Thousand-Meter Stare": { "constellation": "Sniper", "parent": "Extreme Range" },
+		"Low Observables": { "constellation": "Sniper", "parent": "" },
+		"Induce Panic": { "constellation": "Sniper", "parent": "Low Observables" },
+		"Sighting In": { "constellation": "Sniper", "parent": "" },
+		"Access": { "constellation": "Spy", "parent": "" },
+		"Black Bag Specialist": { "constellation": "Spy", "parent": "" },
+		"Safecracker": { "constellation": "Spy", "parent": "Black Bag Specialist" },
+		"Brush Pass": { "constellation": "Spy", "parent": "" },
+		"Expert Tail": { "constellation": "Spy", "parent": "" },
+		"Vanish": { "constellation": "Spy", "parent": "" },
+		"Controlled Burst": { "constellation": "Trooper", "parent": "" },
+		"Focused Burst": { "constellation": "Trooper", "parent": "Controlled Burst" },
+		"Deadly Reply": { "constellation": "Trooper", "parent": "" },
+		"Imposing Threat": { "constellation": "Trooper", "parent": "" },
+		"Over the Top": { "constellation": "Trooper", "parent": "" },
+		"Spray and Pray": { "constellation": "Trooper", "parent": "" },
+		"Covering Fire": { "constellation": "Trooper", "parent": "Spray and Pray" },
+		"Stopping Power": { "constellation": "Trooper", "parent": "" },
+		"Rock Steady": { "constellation": "Trooper", "parent": "Stopping Power" },
+		"Hardened Systems": { "constellation": "Artificial Systems", "parent": "" },
+		"Redundant Components": { "constellation": "Artificial Systems", "parent": "" },
+		"Overdrive": { "constellation": "Artificial Systems", "parent": "Redundant Components" },
+		"Social Programming": { "constellation": "Artificial Systems", "parent": "" },
+		"Big Hitter": { "constellation": "Powerful Build", "parent": "" },
+		"Bulldozer": { "constellation": "Powerful Build", "parent": "" },
+		"Trample": { "constellation": "Powerful Build", "parent": "Bulldozer" },
+		"Unstoppable": { "constellation": "Powerful Build", "parent": "Trample" },
+		"Oversized Weapons": { "constellation": "Powerful Build", "parent": "" },
+		"Thich Hide": { "constellation": "Powerful Build", "parent": "" },
+		"Branching Network": { "constellation": "Rapport", "parent": "" },
+		"Propagating Network": { "constellation": "Rapport", "parent": "" },
+		"Rapid Communion": { "constellation": "Rapport", "parent": "" },
+		"Euphoric Communion": { "constellation": "Rapport", "parent": "Rapid Communion" },
+		"Forceful Communion": { "constellation": "Rapport", "parent": "Euphoric Communion" },
+		"Ambiloader": { "constellation": "Limb Articulation", "parent": "" },
+		"Dual Weapons": { "constellation": "Limb Articulation", "parent": "Ambiloader" },
+		"Tripple Weapons": { "constellation": "Limb Articulation", "parent": "Dual Weapons" },
+		"Feral Wrestler": { "constellation": "Limb Articulation", "parent": "" },
+		"Flurry of Blows": { "constellation": "Limb Articulation", "parent": "" },
+		"Feral Flurry": { "constellation": "Limb Articulation", "parent": "Flurry of Blows" },
+		"Swift Quadruped": { "constellation": "Limb Articulation", "parent": "" },
+		"Improve Strength": { "constellation": "Self-Improvement", "parent": "" },
+		"Improve Afility": { "constellation": "Self-Improvement", "parent": "" },
+		"Improve Vitality": { "constellation": "Self-Improvement", "parent": "" },
+		"Improve Intelligence": { "constellation": "Self-Improvement", "parent": "" },
+		"Improve Focus": { "constellation": "Self-Improvement", "parent": "" },
+		"Improve Personality": { "constellation": "Self-Improvement", "parent": "" },
+	};
+
+	// Rebuild dropdown menu, if needed
+	if ( rebuildMenu ) {
+		menuHTML = "";
+		for ( var constellation in talentConstellations ) {
+			if ( talentConstellations[constellation]["minimumLevel"] <= characterLevel && ( talentConstellations[constellation]["allowedSpecies"] == "any" || talentConstellations[constellation]["allowedSpecies"] == selectedSpecies ) ) {
+				menuHTML += "<option value=\"" + constellation + "\">";
+				for ( var talent in talents ) {
+					if ( talents[talent]["constellation"] == constellation ) {
+						if ( talents[talent]["parent"] != "" ) {
+							menuHTML += "<option value=\" - &gt; " + talent + "\">";
+						} else {
+							menuHTML += "<option value=\" &gt; " + talent + "\">";
+						}
+					}
+				}
+			}
+		}
+		document.getElementById("talents").innerHTML = menuHTML;
+	}
+
+	// Populate array with values from the frontend
+	var selectedTalents = [];
+	for ( var i = 0; i < 5; i++ ) {
+		selectedTalents.push(document.getElementById("talent" + (i + 1) ).value.replace(" > ","").replace(" -",""));
+	}
+
+	// Generate propper tree from selected talents
+	// Step 1: sort selected talents so they appear in the same order as in "talentConstellations" and "talents" objects
+	var sortedTalents = [];
+	for ( var constellation in talentConstellations ) {
+		if ( selectedTalents.includes(constellation) ) {
+			sortedTalents.push(constellation);
+		}
+		for ( var talent in talents ) {
+			if ( talents[talent]["constellation"] == constellation && selectedTalents.includes(talent) ) {
+				sortedTalents.push(talent);
+			}
+		}
+	}
+	// Step 2: populate selected talents with missing parent entries
+	var expandedTalents = [];
+	for ( var i = 0; i < sortedTalents.length; i++ ) {
+		if ( talentConstellations[sortedTalents[i]] != null ) {
+			expandedTalents.push(sortedTalents[i]);
+			continue;
+		}
+		if ( talents[sortedTalents[i]] != null ) {
+			if ( talents[sortedTalents[i]]["parent"] == "" ) {
+				expandedTalents.push(" > " + sortedTalents[i]);
+				continue;
+			} else {
+				if ( talents[talents[sortedTalents[i]]["parent"]]["parent"] == "" ) {
+					expandedTalents.push(" > " + talents[sortedTalents[i]]["parent"]);
+					expandedTalents.push(" - > " + sortedTalents[i]);
+					continue;
+				}
+			}
+		}
+	}
+	// Step 3: remove duplicates
+	var finalTalents = [];
+	for ( var i = 0; i < expandedTalents.length; i++ ) {
+		if ( finalTalents.indexOf(expandedTalents[i]) == -1 ) {
+			finalTalents.push(expandedTalents[i]);
+		}
+	}
+	// Step 4: put final array back into the HTML
+	for ( var i = 0; i < finalTalents.length; i++ ) {
+		if ( finalTalents[i] != null ) {
+			document.getElementById("talent" + (i + 1) ).value = finalTalents[i];
+		} else {
+			document.getElementById("talent" + (i + 1) ).value = "";
+		}
+	}
+
+	console.log(sortedTalents);
+	console.log(expandedTalents);
+	console.log(finalTalents);
+}
+
+// Make changes based on character level
+function characterLevel(e) {
+	talents(e, rebuildMenu = true);
+}
+
 // The following array and functions are used for handling the character import/export string
 // List of all inputable IDs 
 //
@@ -864,7 +1152,12 @@ var valuesDefiningACharacter = [     "characterName",
                                      "securityLevel",
                                      "stealthLevel",
                                      "survivalLevel",
-                                     "willpowerLevel"];
+                                     "willpowerLevel",
+                                     "talent1",
+                                     "talent2",
+                                     "talent3",
+                                     "talent4",
+                                     "talent5"];
 
 // Encode current character into a single string
 function exportCharacter(e) {
