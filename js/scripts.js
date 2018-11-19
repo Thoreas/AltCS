@@ -1088,6 +1088,9 @@ function characterLevel(e) {
 		document.getElementById("talentNum").innerHTML = characterLevel + 2;
 	}
 
+	// Update available hero points
+	document.getElementById("characterHeroPoints").value = isNaN(characterLevel) ? "" : characterLevel * 5 + 10;
+
 	// Set number of available talents
 	for ( var i = 0; i < 12; i++ ) {
 		if ( i < ( isNaN(characterLevel) ? 3 : characterLevel ) + 2 ) {
