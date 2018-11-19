@@ -107,6 +107,8 @@ document.getElementById("talent2").addEventListener("focusout", talents);
 document.getElementById("talent3").addEventListener("focusout", talents);
 document.getElementById("talent4").addEventListener("focusout", talents);
 document.getElementById("talent5").addEventListener("focusout", talents);
+document.getElementById("clearTalentsButton").addEventListener("click", clearTalents);
+talents(null, rebuildMenu = true);
 
 // Bind function which makes changes based on character's level
 document.getElementById("characterLevel").addEventListener("focusout", characterLevel);
@@ -789,12 +791,20 @@ function recalculateCharacterSkills(e) {
 	}
 };
 
+// Function which clears all selected talents
+function clearTalents(e) {
+	for ( var i = 0; i < 5; i++ ) {
+		document.getElementById("talent" + (i + 1) ).value = "";
+	}
+	talents(e, rebuildMenu = true);
+}
+
 // Make modifications to the charecater sheet based on talents selected
 function talents(e, rebuildMenu = false) {
 	// Get recquired character info
 	var characterLevel = parseInt(document.getElementById("characterLevel").value);
 	if ( isNaN(characterLevel) ) {
-		characterLevel = 0;
+		characterLevel = 1;
 	}
 	var selectedSpecies = document.getElementById("selectedSpecies").value;
 
@@ -1029,13 +1039,20 @@ function talents(e, rebuildMenu = false) {
 		}
 		if ( talents[sortedTalents[i]] != null ) {
 			if ( talents[sortedTalents[i]]["parent"] == "" ) {
+				expandedTalents.push(talents[sortedTalents[i]]["constellation"]);
 				expandedTalents.push(" > " + sortedTalents[i]);
 				continue;
 			} else {
 				if ( talents[talents[sortedTalents[i]]["parent"]]["parent"] == "" ) {
+					expandedTalents.push(talents[talents[sortedTalents[i]]["parent"]]["constellation"]);
 					expandedTalents.push(" > " + talents[sortedTalents[i]]["parent"]);
 					expandedTalents.push(" - > " + sortedTalents[i]);
 					continue;
+				} else {
+					expandedTalents.push(talents[talents[talents[sortedTalents[i]]["parent"]]["parent"]]["constellation"]);
+					expandedTalents.push(" > " + talents[talents[sortedTalents[i]]["parent"]]["parent"]);
+					expandedTalents.push(" - > " + talents[sortedTalents[i]]["parent"]);
+					expandedTalents.push(" - - > " + sortedTalents[i]);
 				}
 			}
 		}
@@ -1048,17 +1065,13 @@ function talents(e, rebuildMenu = false) {
 		}
 	}
 	// Step 4: put final array back into the HTML
-	for ( var i = 0; i < finalTalents.length; i++ ) {
+	for ( var i = 0; i < 5; i++ ) {
 		if ( finalTalents[i] != null ) {
 			document.getElementById("talent" + (i + 1) ).value = finalTalents[i];
 		} else {
 			document.getElementById("talent" + (i + 1) ).value = "";
 		}
 	}
-
-	console.log(sortedTalents);
-	console.log(expandedTalents);
-	console.log(finalTalents);
 }
 
 // Make changes based on character level
