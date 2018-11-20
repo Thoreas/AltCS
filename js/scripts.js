@@ -105,7 +105,9 @@ for ( var i = 0; i < 12; i++ ) {
 	document.getElementById("talent" + i).addEventListener("focusout", talents);
 }
 document.getElementById("clearTalentsButton").addEventListener("click", clearTalents);
-talents(null, rebuildMenu = true);
+// Self-Improvement talent
+var hasIncreased = false;
+var previousValue = "";
 
 // Bind function which makes changes based on character's level
 document.getElementById("characterLevel").addEventListener("focusout", characterLevel);
@@ -735,6 +737,14 @@ function recalculateCharacterSkills(e) {
 	// Check and correct the range of input values; if any correcting was done then restart
 	var cleanPass = true;
 	for (var characterStat in characterStats) {
+		if ( document.getElementById("abilitiesAvailable") != null ) {
+			var bonusStat = document.getElementById("abilitiesAvailable").value;
+			if ( !hasIncreased && characterStat == "character" + bonusStat && characterStats[characterStat] + 1 <= maxStatValue[characterStat] ) {
+				characterStats[characterStat]++;
+				document.getElementById("character" + bonusStat).value = characterStats[characterStat];
+				hasIncreased = true;
+			}
+		}
 		if ( characterStats[characterStat] < minStatValue[characterStat] ) {
 			document.getElementById(characterStat).value = minStatValue[characterStat];
 			characterStats[characterStat] = minStatValue[characterStat];
@@ -791,10 +801,20 @@ function recalculateCharacterSkills(e) {
 
 // Function which clears all selected talents
 function clearTalents(e) {
+	// Check if Self-Improvement was selected, clear the event listener if it was
+	if ( document.getElementById("abilitiesAvailable") != null ) {
+		document.getElementById("abilitiesAvailable").removeEventListener("change", bonusStatChanged);
+		if ( previousValue != "" ) {
+			document.getElementById("character" + previousValue).value--;
+		}
+		previousValue = "";
+	}
 	for ( var i = 0; i < 12; i++ ) {
 		document.getElementById("talent" + i).value = "";
+		document.getElementById("talent" + i).removeAttribute("readonly");
 	}
 	talents(e);
+	recalculateCharacterSkills(e);
 }
 
 // Make modifications to the charecater sheet based on talents selected
@@ -831,7 +851,7 @@ function talents(e, rebuildMenu = false) {
 		"Powerful Build": { "minimumLevel": "1", "restrictedToSpecies": "Briith", "note": "+1 step bonus to Hand to Hand and Melee attacks." },
 		"Rapport": { "minimumLevel": "1", "restrictedToSpecies": "Nesh", "note": "can communicate with any sentient creature with Intelligence 2 or higher." },
 		"Limb Articulation": { "minimumLevel": "1", "restrictedToSpecies": "Xayon", "note": "changing in or out of quadruped stance is a 1-impulse action." },
-		"Self-Improvement": { "minimumLevel": "2", "note": "increase an ability score by 1." }
+		"Self-Improvement": { "minimumLevel": "2", "note": "increase an ability score by 1: <select id=\"abilitiesAvailable\"><option disabled selected></option><option>Str</option><option>Foc</option><option>Int</option><option>Vit</option><option>Agi</option><option>Per</option></select> (selected ability scored is automatically increased)" }
 	};
 	var talents = {
 		"Hit the Dirt": { "constellation": "Alertness" },
@@ -1074,6 +1094,7 @@ function talents(e, rebuildMenu = false) {
 		if ( finalTalents[i] != null ) {
 			// Put element into Talents
 			document.getElementById("talent" + i).value = finalTalents[i];
+			document.getElementById("talent" + i).setAttribute("readonly", "true");
 			// Put note into Talent Notes
 			var talentNote = "";
 			var currentTalentStripped = finalTalents[i].trim().substring(document.getElementById("talent" + i).value.trim().indexOf(" ") + 1);
@@ -1083,6 +1104,9 @@ function talents(e, rebuildMenu = false) {
 				talentNote = talents[currentTalentStripped]["note"];
 			}
 			appendToTalentNotes("<strong>" + currentTalentStripped + ":</strong> " + talentNote);
+			if ( currentTalentStripped == "Self-Improvement" ) {
+				document.getElementById("abilitiesAvailable").addEventListener("change", bonusStatChanged);
+			}
 		} else {
 			document.getElementById("talent" + i).value = "";
 		}
@@ -1106,6 +1130,18 @@ function appendToTalentNotes(lineToAppend) {
 	var li = document.createElement("li");
 	li.innerHTML = lineToAppend;
 	document.getElementById("talentNotes").appendChild(li);
+}
+
+// Function which handles changing of selected attribute in Self-Improvement Talent
+function bonusStatChanged(e) {
+	var newValue = document.getElementById("abilitiesAvailable").value;
+	document.getElementById("character" + newValue).value++;
+	if ( previousValue != "" ) {
+		document.getElementById("character" + previousValue).value--;
+	}
+	previousValue = newValue;
+	hasIncreased = true;
+	recalculateCharacterSkills(e);
 }
 
 // Make changes based on character level
@@ -1250,13 +1286,19 @@ var valuesDefiningACharacter = [     "characterName",
                                      "talent8",
                                      "talent9",
                                      "talent10",
-                                     "talent11"];
+                                     "talent11",
+                                     "previousValue",
+                                     "hasIncreased"];
 
 // Encode current character into a single string
 function exportCharacter(e) {
 	var characterSaveString = "";
 	for ( var i in valuesDefiningACharacter ) {
-		characterSaveString += document.getElementById(valuesDefiningACharacter[i]).value + "|";
+		if ( valuesDefiningACharacter[i] == "previousValue" || valuesDefiningACharacter[i] == "hasIncreased" ) {
+			characterSaveString += window[valuesDefiningACharacter[i]] + "|";
+		} else {
+			characterSaveString += document.getElementById(valuesDefiningACharacter[i]).value + "|";
+		}
 	}
 	document.getElementById("characterSaveString").value = btoa(encodeURIComponent(characterSaveString.slice(0, -1)));
 }
@@ -1277,10 +1319,17 @@ function importCharacter(e) {
 		return;
 	}
 	for ( var i in valuesDefiningACharacter ) {
-		var currentElement = document.getElementById(valuesDefiningACharacter[i]);
-		currentElement.focus();
-		currentElement.value = characterSaveString[i];
-		currentElement.blur();
+		if ( valuesDefiningACharacter[i] == "previousValue" || valuesDefiningACharacter[i] == "hasIncreased" ) {
+			window[valuesDefiningACharacter[i]] = characterSaveString[i];
+			if ( valuesDefiningACharacter[i] == "previousValue" && document.getElementById("abilitiesAvailable") != null ) {
+				document.getElementById("abilitiesAvailable").value = characterSaveString[i];
+			}
+		} else {
+			var currentElement = document.getElementById(valuesDefiningACharacter[i]);
+			currentElement.focus();
+			currentElement.value = characterSaveString[i];
+			currentElement.blur();
+		}
 	}
 	window.scrollTo(0,0);
 }
